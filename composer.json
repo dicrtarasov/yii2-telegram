@@ -1,0 +1,56 @@
+{
+    "name": "dicr/yii2-telegram",
+    "type": "yii2-extension",
+    "license": "Apache-2.0",
+    "description": "Telegram API for Yii2",
+    "homepage": "https://gitlab.com/dicr/yii2-telegram",
+    "keywords": ["dicr", "php", "yii2", "telegram"],
+    "authors": [
+        {
+            "name": "Igor A Tarasov",
+            "email": "develop@dicr.org",
+            "homepage": "http://dicr.org",
+            "role": "developer"
+        }
+    ],
+    "support": {
+        "source": "https://gitlab.com/dicr/yii2-telegram.git"
+    },
+    "autoload": {
+        "psr-4": {
+            "dicr\\telegram\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "dicr\\tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "RC",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=7.2",
+        "yiisoft/yii2": "~2.0.32",
+        "dicr/yii2-http": "~2.0.6",
+        "dicr/yii2-validate": "~1.5.6"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "phpunit/phpunit": "~8.5.2"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://gitlab.com/dicr/yii2-http.git"
+        }, {
+            "type": "git",
+            "url": "https://gitlab.com/dicr/yii2-validate.git"
+        }, {
+            "type": "git",
+            "url": "https://gitlab.com/dicr/yii2-asset.git"
+        }, {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
+}
