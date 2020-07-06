@@ -3,11 +3,10 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 06.03.20 02:33:02
+ * @version 06.07.20 23:53:18
  */
 
 declare(strict_types = 1);
-
 namespace dicr\telegram;
 
 use dicr\http\HttpCompressionBehavior;
@@ -17,7 +16,6 @@ use yii\httpclient\Client;
 /**
  * Telegram Bot API Client.
  *
- * @package app\modules\sitemon\components
  * @link https://core.telegram.org/bots/api
  */
 class TelegramClient extends Client
@@ -33,7 +31,7 @@ class TelegramClient extends Client
 
     /**
      * @inheritDoc
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function init()
     {
@@ -75,7 +73,7 @@ class TelegramClient extends Client
      * Запрос отправки сообщения.
      *
      * @param array $config
-     * @return \dicr\telegram\MessageRequest
+     * @return MessageRequest
      */
     public function createMessageRequest(array $config = [])
     {

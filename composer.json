@@ -21,36 +21,20 @@
             "dicr\\telegram\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "dicr\\tests\\": "tests/"
-        }
-    },
     "minimum-stability": "RC",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.2",
-        "yiisoft/yii2": "~2.0.32",
-        "dicr/yii2-http": "~2.0.6",
-        "dicr/yii2-validate": "~1.5.6"
+        "php": "~7.2",
+        "yiisoft/yii2": "~2.0",
+        "dicr/yii2-http": "~2.1",
+        "dicr/yii2-validate": "~2.0"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-master",
-        "phpunit/phpunit": "~8.5.2"
+        "roave/security-advisories": "dev-master"
     },
     "repositories": [
-        {
-            "type": "git",
-            "url": "https://gitlab.com/dicr/yii2-http.git"
-        }, {
-            "type": "git",
-            "url": "https://gitlab.com/dicr/yii2-validate.git"
-        }, {
-            "type": "git",
-            "url": "https://gitlab.com/dicr/yii2-asset.git"
-        }, {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
+        {"type": "git", "url": "https://gitlab.com/dicr/yii2-http.git"},
+        {"type": "git", "url": "https://gitlab.com/dicr/yii2-validate.git"},
+        {"type": "composer", "url": "https://asset-packagist.org"}
     ]
 }

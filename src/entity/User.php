@@ -3,11 +3,10 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 06.03.20 02:30:17
+ * @version 06.07.20 23:56:17
  */
 
 declare(strict_types = 1);
-
 namespace dicr\telegram\entity;
 
 /**

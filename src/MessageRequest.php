@@ -3,13 +3,13 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 06.03.20 02:31:33
+ * @version 06.07.20 23:55:52
  */
 
 declare(strict_types = 1);
-
 namespace dicr\telegram;
 
+use dicr\telegram\entity\BaseEntity;
 use dicr\telegram\entity\Message;
 
 /**
@@ -18,7 +18,6 @@ use dicr\telegram\entity\Message;
  * @method Message send()
  *
  * @link https://core.telegram.org/bots/api#sendmessage
- * @package app\modules\sitemon\components
  */
 class MessageRequest extends TelegramRequest
 {
@@ -43,7 +42,7 @@ class MessageRequest extends TelegramRequest
     /** @var string|int
      * Unique identifier for the target chat or username of the target channel (in the format @channelusername).
      *
-     * Для публичных это @chat_name, для приатных это чсиловой ID,
+     * Для публичных это @chat_name, для приватных это числовой ID,
      * Получить ID приватного чата можно если временно сделать его публичным, отправить в него сообщение и в ответе
      * посмотреть его id, затем сделать обратно приватным.
      */
@@ -141,7 +140,7 @@ class MessageRequest extends TelegramRequest
 
     /**
      * @inheritDoc
-     * @return \dicr\telegram\entity\BaseEntity|\dicr\telegram\entity\Message
+     * @return BaseEntity|Message
      */
     protected function result(array $result)
     {

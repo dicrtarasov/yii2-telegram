@@ -3,34 +3,35 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 06.03.20 02:32:28
+ * @version 06.07.20 23:54:16
  */
 
 declare(strict_types = 1);
-
 namespace dicr\telegram;
 
+use dicr\telegram\entity\BaseEntity;
 use dicr\validate\ValidateException;
 use yii\base\Exception;
+use yii\base\InvalidConfigException;
 use yii\base\Model;
 use function array_filter;
 
 /**
- * Убстрактный запрос.
+ * Абстрактный запрос.
  *
- * @property-read \dicr\telegram\TelegramClient $client
+ * @property-read TelegramClient $client
  *
  * @package app\modules\sitemon\components
  */
 abstract class TelegramRequest extends Model
 {
-    /** @var \dicr\telegram\TelegramClient */
+    /** @var TelegramClient */
     private $_client;
 
     /**
      * Конструктор.
      *
-     * @param \dicr\telegram\TelegramClient $client
+     * @param TelegramClient $client
      * @param array $config
      */
     public function __construct(TelegramClient $client, array $config = [])
@@ -43,7 +44,7 @@ abstract class TelegramRequest extends Model
     /**
      * Установить клиент.
      *
-     * @param \dicr\telegram\TelegramClient $client
+     * @param TelegramClient $client
      */
     public function getClient(TelegramClient $client)
     {
@@ -68,17 +69,17 @@ abstract class TelegramRequest extends Model
      * Конвертирует результат запроса.
      *
      * @param array $result
-     * @return \dicr\telegram\entity\BaseEntity
+     * @return BaseEntity
      */
     abstract protected function result(array $result);
 
     /**
      * Отправляет запрос.
      *
-     * @return \dicr\telegram\entity\BaseEntity|bool
-     * @throws \dicr\validate\ValidateException
-     * @throws \yii\base\Exception
-     * @throws \yii\base\InvalidConfigException
+     * @return BaseEntity|bool
+     * @throws ValidateException
+     * @throws Exception
+     * @throws InvalidConfigException
      * @throws \yii\httpclient\Exception
      */
     public function send()

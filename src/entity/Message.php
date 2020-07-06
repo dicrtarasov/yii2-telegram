@@ -3,7 +3,7 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 06.03.20 02:28:32
+ * @version 06.07.20 23:55:11
  */
 
 declare(strict_types = 1);
@@ -25,7 +25,7 @@ class Message extends BaseEntity
     /** @var int Date the message was sent in Unix time */
     public $date;
 
-    /** @var \dicr\telegram\entity\Chat Conversation the message belongs to */
+    /** @var Chat Conversation the message belongs to */
     public $chat;
 
     /**

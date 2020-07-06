@@ -3,7 +3,7 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 06.03.20 02:28:32
+ * @version 06.07.20 23:55:24
  */
 
 declare(strict_types = 1);
@@ -49,7 +49,7 @@ class Chat extends BaseEntity
     /** @var string|null Last name of the other party in a private chat */
     public $lastName;
 
-    /** @var \dicr\telegram\entity\ChatPhoto|null Chat photo. Returned only in getChat. */
+    /** @var ChatPhoto|null Chat photo. Returned only in getChat. */
     public $photo;
 
     /** @var string|null Description, for groups, supergroups and channel chats. Returned only in getChat. */
@@ -60,16 +60,16 @@ class Chat extends BaseEntity
      * Returned only in getChat. */
     public $inviteLink;
 
-    /** @var \dicr\telegram\entity\Message|null Pinned message, for groups, supergroups and channels.
+    /** @var Message|null Pinned message, for groups, supergroups and channels.
      * Returned only in getChat. */
     public $pinnedMessage;
 
-    /** @var \dicr\telegram\entity\ChatPermissions|null Default chat member permissions, for groups
+    /** @var ChatPermissions|null Default chat member permissions, for groups
      * and supergroups. Returned only in getChat. */
     public $permissions;
 
     /** @var int|null For supergroups, the minimum allowed delay between consecutive messages sent by each
-     * unpriviledged user. Returned only in getChat. */
+     * unprivileged user. Returned only in getChat. */
     public $slowModeDelay;
 
     /** @var string|null For supergroups, name of group sticker set. Returned only in getChat. */

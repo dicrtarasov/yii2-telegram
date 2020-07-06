@@ -3,7 +3,7 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 06.03.20 02:28:32
+ * @version 06.07.20 23:55:11
  */
 
 declare(strict_types = 1);
@@ -75,7 +75,7 @@ class MessageEntity extends BaseEntity
     /** @var string|null For “text_link” only, url that will be opened after user taps on the text */
     public $url;
 
-    /** @var \dicr\telegram\entity\User|null For “text_mention” only, the mentioned user */
+    /** @var User|null For “text_mention” only, the mentioned user */
     public $user;
 
     /** @var string|null For “pre” only, the programming language of the entity text */
