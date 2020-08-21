@@ -2,7 +2,9 @@
   <dictionary name="dicr">
     <words>
       <w>boolval</w>
+      <w>bot's</w>
       <w>cashtag</w>
+      <w>cупергруппа</w>
       <w>dicr</w>
       <w>ietf</w>
       <w>intval</w>
@@ -12,6 +14,8 @@
       <w>supergroups</w>
       <w>tarasov</w>
       <w>yiisoft</w>
+      <w>аудиофайле</w>
+      <w>стикере</w>
       <w>токен</w>
     </words>
   </dictionary>

@@ -10,14 +10,15 @@ declare(strict_types = 1);
 
 namespace dicr\telegram\entity;
 
+use dicr\telegram\TelegramEntity;
+
 /**
  * Chat Entity.
  * This object represents a chat.
  *
  * @link https://core.telegram.org/bots/api#chat
- * @package app\modules\sitemon\components
  */
-class Chat extends BaseEntity
+class Chat extends TelegramEntity
 {
     /** @var string */
     public const TYPE_PRIVATE = 'private';
@@ -37,25 +38,25 @@ class Chat extends BaseEntity
     /** @var string Type of chat, can be either “private”, “group”, “supergroup” or “channel” */
     public $type;
 
-    /** @var string|null Title, for supergroups, channels and group chats */
+    /** @var ?string Title, for supergroups, channels and group chats */
     public $title;
 
-    /** @var string|null Username, for private chats, supergroups and channels if available */
+    /** @var ?string Username, for private chats, supergroups and channels if available */
     public $userName;
 
-    /** @var string|null First name of the other party in a private chat */
+    /** @var ?string First name of the other party in a private chat */
     public $firstName;
 
-    /** @var string|null Last name of the other party in a private chat */
+    /** @var ?string Last name of the other party in a private chat */
     public $lastName;
 
-    /** @var ChatPhoto|null Chat photo. Returned only in getChat. */
+    /** @var ?ChatPhoto Chat photo. Returned only in getChat. */
     public $photo;
 
-    /** @var string|null Description, for groups, supergroups and channel chats. Returned only in getChat. */
+    /** @var ?string Description, for groups, supergroups and channel chats. Returned only in getChat. */
     public $description;
 
-    /** @var string|null Chat invite link, for groups, supergroups and channel chats. Each administrator in a chat
+    /** @var ?string Chat invite link, for groups, supergroups and channel chats. Each administrator in a chat
      * generates their own invite links, so the bot must first generate the link using exportChatInviteLink.
      * Returned only in getChat. */
     public $inviteLink;
@@ -81,7 +82,7 @@ class Chat extends BaseEntity
     /**
      * @inheritDoc
      */
-    public function configure(array $data)
+    public function setData(array $data)
     {
         $this->id = (int)$data['id'];
         $this->type = (string)$data['type'];
@@ -97,32 +98,28 @@ class Chat extends BaseEntity
         $this->slowModeDelay = isset($data['slow_mode_delay']) ? (int)$data['slow_mode_delay'] : null;
         $this->stickerSetName = isset($data['sticker_set_name']) ? (string)$data['sticker_set_name'] : null;
         $this->canSetStickerSet = isset($data['can_set_sticker_set']) ? (bool)$data['can_set_sticker_set'] : null;
-
-        return $this;
     }
 
     /**
      * @inheritDoc
      */
-    public function toData()
+    public function getData(): array
     {
-        return array_filter([
+        return [
             'id' => (int)$this->id,
             'type' => (string)$this->type,
             'title' => isset($this->title) ? (string)$this->title : null,
             'username' => isset($this->userName) ? (string)$this->userName : null,
             'first_name' => isset($this->firstName) ? (string)$this->firstName : null,
             'last_name' => isset($this->lastName) ? (string)$this->lastName : null,
-            'photo' => isset($this->photo) ? $this->photo->toData() : null,
+            'photo' => isset($this->photo) ? $this->photo->getData() : null,
             'description' => isset($this->description) ? (string)$this->description : null,
             'invite_link' => isset($this->inviteLink) ? (string)$this->inviteLink : null,
-            'pinned_message' => isset($this->pinnedMessage) ? $this->pinnedMessage->toData() : null,
-            'permissions' => isset($this->permissions) ? $this->permissions->toData() : null,
+            'pinned_message' => isset($this->pinnedMessage) ? $this->pinnedMessage->getData() : null,
+            'permissions' => isset($this->permissions) ? $this->permissions->getData() : null,
             'slow_mode_delay' => isset($this->slowModeDelay) ? (int)$this->slowModeDelay : null,
             'sticker_set_name' => isset($this->stickerSetName) ? (string)$this->stickerSetName : null,
             'can_set_sticker_set' => isset($this->canSetStickerSet) ? (string)$this->canSetStickerSet : null
-        ], static function($val) {
-            return $val !== null && $val !== '' && $val !== [];
-        });
+        ];
     }
 }

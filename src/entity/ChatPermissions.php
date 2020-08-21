@@ -10,14 +10,15 @@ declare(strict_types = 1);
 
 namespace dicr\telegram\entity;
 
+use dicr\telegram\TelegramEntity;
+
 /**
  * Class ChatPermissions.
  * Describes actions that a non-administrator user is allowed to take in a chat.
  *
- * @package app\modules\sitemon\components
  * @link https://core.telegram.org/bots/api#chatpermissions
  */
-class ChatPermissions extends BaseEntity
+class ChatPermissions extends TelegramEntity
 {
     /** @var bool|null True, if the user is allowed to send text messages, contacts, locations and venues */
     public $canSendMessages;
@@ -50,7 +51,7 @@ class ChatPermissions extends BaseEntity
     /**
      * @inheritDoc
      */
-    public function configure(array $data)
+    public function setData(array $data)
     {
         $this->canSendMessages = isset($data['can_send_messages']) ? (bool)$data['can_send_messages'] : null;
         $this->canSendMediaMessages =
@@ -63,29 +64,24 @@ class ChatPermissions extends BaseEntity
         $this->canChangeInfo = isset($data['can_change_info']) ? (bool)$data['can_change_info'] : null;
         $this->canInviteUsers = isset($data['can_invite_users']) ? (bool)$data['can_invite_users'] : null;
         $this->canPinMessages = isset($data['can_pin_messages']) ? (bool)$data['can_pin_messages'] : null;
-
-        return $this;
     }
 
     /**
      * @inheritDoc
      */
-    public function toData()
+    public function getData(): array
     {
-        return array_filter([
+        return [
             'can_send_messages' => isset($this->canSendMessages) ? (bool)$this->canSendMessages : null,
             'can_send_media_messages' => isset($this->canSendMediaMessages) ? (bool)$this->canSendMediaMessages : null,
             'can_send_polls' => isset($this->canSendPolls) ? (bool)$this->canSendPolls : null,
-            'can_send_other_messages' => isset($this->canSendOtherMessages) ? (bool)$this->canSendOtherMessages : null,
-
-            'can_add_web_page_previews' => isset($this->canAddWebPagePreviews) ? (bool)$this->canAddWebPagePreviews :
-                null,
-
+            'can_send_other_messages' => isset($this->canSendOtherMessages) ?
+                (bool)$this->canSendOtherMessages : null,
+            'can_add_web_page_previews' => isset($this->canAddWebPagePreviews) ?
+                (bool)$this->canAddWebPagePreviews : null,
             'can_change_info' => isset($this->canChangeInfo) ? (bool)$this->canChangeInfo : null,
             'can_invite_users' => isset($this->canInviteUsers) ? (bool)$this->canInviteUsers : null,
             'can_pin_messages' => isset($this->canPinMessages) ? (bool)$this->canPinMessages : null
-        ], static function($val) {
-            return $val !== null && $val !== '' && $val !== [];
-        });
+        ];
     }
 }

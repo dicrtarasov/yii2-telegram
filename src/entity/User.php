@@ -9,13 +9,15 @@
 declare(strict_types = 1);
 namespace dicr\telegram\entity;
 
+use dicr\telegram\TelegramEntity;
+
 /**
  * Class User.
  * This object represents a Telegram user or bot.
  *
  * @link https://core.telegram.org/bots/api#user
  */
-class User extends BaseEntity
+class User extends TelegramEntity
 {
     /** @var int Unique identifier for this user or bot */
     public $id;
@@ -47,7 +49,7 @@ class User extends BaseEntity
     /**
      * @inheritDoc
      */
-    public function configure(array $data)
+    public function setData(array $data)
     {
         $this->id = (int)$data['id'];
         $this->isBot = (bool)$data['is_bot'];
@@ -69,9 +71,9 @@ class User extends BaseEntity
     /**
      * @inheritDoc
      */
-    public function toData()
+    public function getData(): array
     {
-        return array_filter([
+        return [
             'id' => (int)$this->id,
             'is_bot' => (bool)$this->isBot,
             'first_name' => (string)$this->firstName,
@@ -82,8 +84,6 @@ class User extends BaseEntity
             'can_read_all_group_messages' => isset($this->canReadAllGroupMessages) ?
                 (bool)$this->canReadAllGroupMessages : null,
             'supports_inline_queries' => isset($this->supportsInlineQueries) ? (bool)$this->supportsInlineQueries : null
-        ], static function($val) {
-            return $val !== null && $val !== '' && $val !== [];
-        });
+        ];
     }
 }

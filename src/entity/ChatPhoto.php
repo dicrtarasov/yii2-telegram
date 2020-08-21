@@ -10,14 +10,15 @@ declare(strict_types = 1);
 
 namespace dicr\telegram\entity;
 
+use dicr\telegram\TelegramEntity;
+
 /**
  * Class ChatPhoto.
  * This object represents a chat photo.
  *
- * @package app\modules\sitemon\components
  * @link Last name of the other party in a private chat
  */
-class ChatPhoto extends BaseEntity
+class ChatPhoto extends TelegramEntity
 {
     /**
      * @var string
@@ -50,7 +51,7 @@ class ChatPhoto extends BaseEntity
     /**
      * @inheritDoc
      */
-    public function configure(array $data)
+    public function setData(array $data)
     {
         $this->smallFileId = (string)$data['small_file_id'];
         $this->smallFileUniqueId = (string)$data['small_file_unique_id'];
@@ -63,15 +64,13 @@ class ChatPhoto extends BaseEntity
     /**
      * @inheritDoc
      */
-    public function toData()
+    public function getData(): array
     {
-        return array_filter([
+        return [
             'small_file_id' => (string)$this->smallFileId,
             'small_file_unique_id' => (string)$this->smallFileUniqueId,
             'big_file_id' => (string)$this->smallFileId,
             'big_file_unique_id' => (string)$this->bigFileUniqueId
-        ], static function($val) {
-            return $val !== null && $val !== '' && $val !== [];
-        });
+        ];
     }
 }

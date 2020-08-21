@@ -9,46 +9,44 @@
 declare(strict_types = 1);
 namespace dicr\telegram;
 
-use dicr\telegram\entity\BaseEntity;
 use dicr\validate\ValidateException;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
-use function array_filter;
+
+use function is_array;
+use function preg_replace;
+use function str_replace;
 
 /**
  * Абстрактный запрос.
  *
- * @property-read TelegramClient $client
- *
- * @package app\modules\sitemon\components
+ * @property-read TelegramModule $module
  */
 abstract class TelegramRequest extends Model
 {
-    /** @var TelegramClient */
-    private $_client;
+    /** @var TelegramModule */
+    private $_module;
 
     /**
      * Конструктор.
      *
-     * @param TelegramClient $client
+     * @param TelegramModule $module
      * @param array $config
      */
-    public function __construct(TelegramClient $client, array $config = [])
+    public function __construct(TelegramModule $module, array $config = [])
     {
-        $this->_client = $client;
+        $this->_module = $module;
 
         parent::__construct($config);
     }
 
     /**
-     * Установить клиент.
-     *
-     * @param TelegramClient $client
+     * Модуль.
      */
-    public function getClient(TelegramClient $client)
+    public function getModule(): TelegramModule
     {
-        $this->client = $client;
+        return $this->_module;
     }
 
     /**
@@ -56,31 +54,42 @@ abstract class TelegramRequest extends Model
      *
      * @return string
      */
-    abstract protected function func();
+    public function func(): string
+    {
+        $func = str_replace(__NAMESPACE__ . '\\', '', static::class);
+
+        return preg_replace('~Request$~u', '', $func);
+    }
 
     /**
      * Возвращает данные для отправки.
      *
      * @return array
      */
-    abstract protected function data();
+    public function data(): array
+    {
+        return $this->attributes;
+    }
 
     /**
      * Конвертирует результат запроса.
      *
-     * @param array $result
-     * @return BaseEntity
+     * @param array $result данные результата запроса
+     * @return ?TelegramEntity
+     * Конкретный тип результата переопределяется в phpdoc наследника.
      */
-    abstract protected function result(array $result);
+    protected function convertResult(array $result)
+    {
+        return null;
+    }
 
     /**
      * Отправляет запрос.
      *
-     * @return BaseEntity|bool
+     * @return mixed ответ
      * @throws ValidateException
-     * @throws Exception
      * @throws InvalidConfigException
-     * @throws \yii\httpclient\Exception
+     * @throws \yii\httpclient\Exception|Exception
      */
     public function send()
     {
@@ -88,20 +97,8 @@ abstract class TelegramRequest extends Model
             throw new ValidateException($this);
         }
 
-        $request = $this->_client->createRequest();
+        $result = $this->module->send($this->func(), $this->data());
 
-        $request->url = $this->func();
-
-        $request->data = array_filter($this->data(), static function($val) {
-            return $val !== null && $val !== '' && $val !== [];
-        });
-
-        $response = $request->send();
-        if (! $response->isOk || empty($response->data['ok'])) {
-            $message = ! empty($response->data['description']) ? $response->data['description'] : $response->content;
-            throw new Exception('Ошибка отправки запроса: ' . $message);
-        }
-
-        return ! empty($response->data['result']) ? $this->result($response->data['result']) : true;
+        return is_array($result) ? $this->convertResult($result) : $result;
     }
 }

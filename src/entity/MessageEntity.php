@@ -10,13 +10,15 @@ declare(strict_types = 1);
 
 namespace dicr\telegram\entity;
 
+use dicr\telegram\TelegramEntity;
+
 /**
  * Class MessageEntity.
  * This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
  *
  * @link https://core.telegram.org/bots/api#messageentity
  */
-class MessageEntity extends BaseEntity
+class MessageEntity extends TelegramEntity
 {
     /** @var string @username */
     public const TYPE_MENTION = 'mention';
@@ -84,7 +86,7 @@ class MessageEntity extends BaseEntity
     /**
      * @inheritDoc
      */
-    public function configure(array $data)
+    public function setData(array $data)
     {
         $this->type = (string)$data['type'];
         $this->offset = (int)$data['offset'];
@@ -100,18 +102,16 @@ class MessageEntity extends BaseEntity
     /**
      * @inheritDoc
      */
-    public function toData()
+    public function getData(): array
     {
-        return array_filter([
+        return [
             'type' => (string)$this->type,
             'offset' => (int)$this->offset,
             'length' => (int)$this->length,
 
             'url' => isset($this->url) ? (string)$this->url : null,
-            'user' => isset($this->user) ? $this->user->toData() : null,
+            'user' => isset($this->user) ? $this->user->getData() : null,
             'language' => isset($this->language) ? (string)$this->language : null
-        ], static function($val) {
-            return $val !== null && $val !== '' && $val !== [];
-        });
+        ];
     }
 }

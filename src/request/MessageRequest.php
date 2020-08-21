@@ -1,16 +1,18 @@
 <?php
-/**
+/*
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 06.07.20 23:55:52
+ * @version 21.08.20 21:05:12
  */
 
 declare(strict_types = 1);
-namespace dicr\telegram;
+namespace dicr\telegram\request;
 
-use dicr\telegram\entity\BaseEntity;
 use dicr\telegram\entity\Message;
+use dicr\telegram\TelegramRequest;
+
+use function is_numeric;
 
 /**
  * Запрос на отправку сообщения в чате.
@@ -52,21 +54,21 @@ class MessageRequest extends TelegramRequest
     public $text;
 
     /**
-     * @var string|null Send Markdown or HTML,
+     * @var ?string Send Markdown or HTML,
      * if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
      */
     public $parseMode;
 
-    /** @var bool|null Disables link previews for links in this message */
+    /** @var ?bool Disables link previews for links in this message */
     public $disableWebPagePreview;
 
-    /** @var bool|null Sends the message silently. Users will receive a notification with no sound. */
+    /** @var ?bool Sends the message silently. Users will receive a notification with no sound. */
     public $disableNotification;
 
-    /** @var int|null If the message is a reply, ID of the original message */
+    /** @var ?int If the message is a reply, ID of the original message */
     public $replyToMessageId;
 
-    /** @var array|null
+    /** @var ?array
      *
      * InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardRemove or ForceReply
      * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard,
@@ -84,9 +86,13 @@ class MessageRequest extends TelegramRequest
         return [
             ['chatId', 'trim'],
             ['chatId', 'required'],
-            ['chatId', function($attribute) {
+            ['chatId', function ($attribute) {
                 if (! preg_match('~^(@[\w\_]+)|(\-?\d+)$~u', $this->{$attribute})) {
                     $this->addError($attribute, 'Некорректный идентификатор чата');
+                }
+
+                if (is_numeric($this->chatId)) {
+                    $this->chatId = (int)$this->chatId;
                 }
             }],
 
@@ -107,14 +113,14 @@ class MessageRequest extends TelegramRequest
             ['replyToMessageId', 'integer'],
             ['replyToMessageId', 'filter', 'filter' => 'intval', 'skipOnEmpty' => true],
 
-            ['replyMarkup', 'default'],
+            ['replyMarkup', 'default']
         ];
     }
 
     /**
      * @inheritDoc
      */
-    protected function func()
+    public function func(): string
     {
         return 'sendMessage';
     }
@@ -122,27 +128,24 @@ class MessageRequest extends TelegramRequest
     /**
      * @inheritDoc
      */
-    protected function data()
+    public function data(): array
     {
-        return array_filter([
+        return [
             'chat_id' => $this->chatId,
             'text' => (string)$this->text,
-            'parse_mode' => isset($this->parseMode) ? (string)$this->parseMode : null,
-            'disable_web_page_preview' => isset($this->disableWebPagePreview) ? (bool)$this->disableWebPagePreview :
-                null,
-            'disable_notification' => isset($this->disableNotification) ? (bool)$this->disableNotification : null,
-            'reply_to_message_id' => isset($this->replyToMessageId) ? (int)$this->replyToMessageId : null,
+            'parse_mode' => $this->parseMode,
+            'disable_web_page_preview' => $this->disableWebPagePreview,
+            'disable_notification' => $this->disableNotification,
+            'reply_to_message_id' => $this->replyToMessageId,
             'reply_markup' => $this->replyMarkup
-        ], static function($val) {
-            return $val !== null && $val !== '' && $val !== [];
-        });
+        ];
     }
 
     /**
      * @inheritDoc
-     * @return BaseEntity|Message
+     * @return Message
      */
-    protected function result(array $result)
+    protected function convertResult(array $result)
     {
         return new Message($result);
     }

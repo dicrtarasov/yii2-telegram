@@ -1,10 +1,10 @@
 {
     "name": "dicr/yii2-telegram",
     "type": "yii2-extension",
-    "license": "Apache-2.0",
-    "description": "Telegram API for Yii2",
+    "license": "MIT",
     "homepage": "https://gitlab.com/dicr/yii2-telegram",
-    "keywords": ["dicr", "php", "yii2", "telegram"],
+    "description": "Telegram API for Yii2",
+    "keywords": ["dicr", "yii2", "telegram"],
     "authors": [
         {
             "name": "Igor A Tarasov",
@@ -25,6 +25,7 @@
     "prefer-stable": true,
     "require": {
         "php": "~7.2",
+        "ext-json": "*",
         "yiisoft/yii2": "~2.0",
         "dicr/yii2-http": "~2.1",
         "dicr/yii2-validate": "~2.0"
