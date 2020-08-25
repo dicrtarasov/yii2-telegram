@@ -3,7 +3,7 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 26.08.20 03:05:09
+ * @version 26.08.20 03:09:00
  */
 
 declare(strict_types = 1);
@@ -26,7 +26,7 @@ class GetMyCommands extends TelegramRequest
      */
     public function func(): string
     {
-        return 'setMyCommands';
+        return 'getMyCommands';
     }
 
     /**
