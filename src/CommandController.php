@@ -3,7 +3,7 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 26.08.20 00:23:47
+ * @version 26.08.20 01:00:23
  */
 
 declare(strict_types = 1);
@@ -14,6 +14,10 @@ use dicr\telegram\request\GetWebhookInfo;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
 use yii\console\Controller;
+
+use function date;
+use function implode;
+use function printf;
 
 /**
  * Консольный контроллер.
@@ -50,8 +54,8 @@ class CommandController extends Controller
         printf("LastErrorMessage: %s\n", $info->lastErrorMessage ?: '-');
         printf("MaxConnections: %d\n", $info->maxConnections);
 
-        printf("AllowedUpdates: %s\n", empty($info->allowedUpdates ? '-' :
-            implode(', ', $info->allowedUpdates))
+        printf("AllowedUpdates: %s\n", empty($info->allowedUpdates) ? '-' :
+            implode(', ', $info->allowedUpdates)
         );
     }
 

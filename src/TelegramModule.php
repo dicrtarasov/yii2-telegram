@@ -3,7 +3,7 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 26.08.20 00:23:47
+ * @version 26.08.20 01:03:57
  */
 
 declare(strict_types = 1);
@@ -11,7 +11,6 @@ namespace dicr\telegram;
 
 use dicr\helper\Url;
 use dicr\http\HttpCompressionBehavior;
-use dicr\telegram\request\SendMessage;
 use dicr\telegram\request\SetWebhook;
 use Yii;
 use yii\base\Exception;
@@ -129,10 +128,10 @@ class TelegramModule extends Module
      *
      * @param string $url URL функции
      * @param array $data данные для отправки
-     * @return array ответ
+     * @return mixed ответ
      * @throws Exception
      */
-    public function send(string $url, array $data): array
+    public function send(string $url, array $data)
     {
         // фильтруем данные
         $data = array_filter($data, static function ($val) {
@@ -140,7 +139,7 @@ class TelegramModule extends Module
         });
 
         // создаем запрос
-        $request = $this->httpClient->post($url, $data, [
+        $request = $this->getHttpClient()->post($url, $data, [
             'Content-Type' => 'application/json; charset=UTF-8',
             'Accept' => 'application/json',
             'Accept-Charset' => 'UTF-8'
@@ -192,6 +191,7 @@ class TelegramModule extends Module
     {
         /** @var SetWebhook $request */
         $request = $this->createRequest([
+            'class' => SetWebhook::class,
             'url' => Url::to('/' . $this->uniqueId . '/webhook', true)
         ]);
 
@@ -199,16 +199,5 @@ class TelegramModule extends Module
         $request->send();
 
         Yii::debug('Установлен webhook: ' . $request->url, __METHOD__);
-    }
-
-    /**
-     * Запрос отправки сообщения.
-     *
-     * @param array $config
-     * @return SendMessage
-     */
-    public function createMessageRequest(array $config = []): SendMessage
-    {
-        return new SendMessage($this, $config);
     }
 }
