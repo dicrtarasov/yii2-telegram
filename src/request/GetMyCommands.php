@@ -3,12 +3,13 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 26.08.20 00:38:05
+ * @version 26.08.20 03:05:09
  */
 
 declare(strict_types = 1);
 namespace dicr\telegram\request;
 
+use dicr\telegram\entity\BotCommand;
 use dicr\telegram\TelegramRequest;
 use yii\base\Exception;
 
@@ -30,10 +31,16 @@ class GetMyCommands extends TelegramRequest
 
     /**
      * @inheritDoc
+     * @return BotCommand[]
      * @throws Exception
      */
-    public function send(): void
+    public function send(): array
     {
-        parent::send();
+        return array_map(static function ($data) {
+            $command = new BotCommand();
+            $command->setJson($data);
+
+            return $command;
+        }, parent::send());
     }
 }

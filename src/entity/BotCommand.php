@@ -3,7 +3,7 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 26.08.20 00:34:20
+ * @version 26.08.20 03:05:43
  */
 
 declare(strict_types = 1);
@@ -45,7 +45,8 @@ class BotCommand extends TelegramEntity
             ['command', function (string $attribute) {
                 if (! preg_match('~^[a-z0-9_]+$~', $this->command)) {
                     $this->addError($attribute,
-                        'Команда может содержать только маленькие латинские буквы, цифры и подчеркивание');
+                        'Команда может содержать только маленькие латинские буквы, цифры и подчеркивание'
+                    );
                 }
             }],
 
@@ -53,5 +54,13 @@ class BotCommand extends TelegramEntity
             ['description', 'required'],
             ['description', 'string', 'min' => 3, 'max' => 256]
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->command . ' - ' . $this->description;
     }
 }
