@@ -3,7 +3,7 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 25.08.20 16:08:59
+ * @version 26.08.20 02:22:11
  */
 
 declare(strict_types = 1);
@@ -29,7 +29,7 @@ class MessageEntity extends TelegramEntity
     /** @var string $USD */
     public const TYPE_CASHTAG = 'cashtag';
 
-    /**  @var string /start@jobs_bot */
+    /**  @var string /start @jobs_bot */
     public const TYPE_BOT_COMMAND = 'bot_command';
 
     /** @var string https://telegram.org */
