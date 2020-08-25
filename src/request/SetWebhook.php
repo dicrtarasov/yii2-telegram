@@ -3,7 +3,7 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 21.08.20 22:56:46
+ * @version 26.08.20 00:23:47
  */
 
 declare(strict_types = 1);
@@ -11,6 +11,7 @@ namespace dicr\telegram\request;
 
 use dicr\telegram\entity\InputFile;
 use dicr\telegram\TelegramRequest;
+use yii\base\Exception;
 
 use function gettype;
 
@@ -22,7 +23,7 @@ use function gettype;
  *
  * @link https://core.telegram.org/bots/api#setwebhook
  */
-class SetWebhookRequest extends TelegramRequest
+class SetWebhook extends TelegramRequest
 {
     /**
      * @var string
@@ -83,6 +84,16 @@ class SetWebhookRequest extends TelegramRequest
     /**
      * @inheritDoc
      */
+    public function attributeEntities(): array
+    {
+        return [
+            'certificate' => InputFile::class
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function func(): string
     {
         return 'setWebhook';
@@ -90,14 +101,10 @@ class SetWebhookRequest extends TelegramRequest
 
     /**
      * @inheritDoc
+     * @throws Exception
      */
-    public function data(): array
+    public function send(): void
     {
-        return [
-            'url' => $this->url,
-            'certificate' => $this->certificate ? $this->certificate->data : null,
-            'max_connections' => $this->maxConnections,
-            'allowed_updates' => $this->allowedUpdates ?: null
-        ];
+        parent::send();
     }
 }

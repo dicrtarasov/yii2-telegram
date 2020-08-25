@@ -3,7 +3,7 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 22.08.20 00:08:17
+ * @version 26.08.20 00:38:05
  */
 
 declare(strict_types = 1);
@@ -14,7 +14,6 @@ use dicr\telegram\entity\Update;
 use Yii;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use yii\web\Response;
 
 use function call_user_func;
 
@@ -34,7 +33,7 @@ class WebhookController extends Controller
     /**
      * Индекс.
      *
-     * @return Response
+     * @return TelegramResponse
      * @throws BadRequestHttpException
      */
     public function actionIndex()
@@ -48,9 +47,12 @@ class WebhookController extends Controller
         $ret = true;
 
         // вызываем пользовательский обработчик
-        if (! empty($this->module->callback)) {
-            $update = new Update(Yii::$app->request->bodyParams);
-            $ret = call_user_func($this->module->callback, $update, $this->module);
+        if (! empty($this->module->handler)) {
+            $update = new Update([
+                'json' => Yii::$app->request->bodyParams
+            ]);
+
+            $ret = call_user_func($this->module->handler, $update, $this->module);
         }
 
         return $this->asJson($ret);

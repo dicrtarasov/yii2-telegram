@@ -1,9 +1,9 @@
 <?php
-/**
+/*
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 06.07.20 23:55:11
+ * @version 25.08.20 15:51:51
  */
 
 declare(strict_types = 1);
@@ -11,8 +11,6 @@ declare(strict_types = 1);
 namespace dicr\telegram\entity;
 
 use dicr\telegram\TelegramEntity;
-
-use function array_map;
 
 /**
  * Сообщение.
@@ -43,6 +41,27 @@ class Message extends TelegramEntity
     public $forwardFrom;
 
     /**
+     * @var ?Chat Optional. For messages forwarded from channels, information about the original channel
+     */
+    public $forwardFromChat;
+
+    /**
+     * @var ?int Optional. For messages forwarded from channels, identifier of the original message in the channel
+     */
+    public $forwardFromMessageId;
+
+    /**
+     * @var ?string Optional. For messages forwarded from channels, signature of the post author if present
+     */
+    public $forwardSignature;
+
+    /**
+     * @var ?string Optional. Sender's name for messages forwarded from users who disallow adding a link to their
+     * account in forwarded messages
+     */
+    public $forwardSenderName;
+
+    /**
      * @var ?int
      * Опционально. Для пересланных сообщений: дата отправки оригинального сообщения.
      */
@@ -57,8 +76,27 @@ class Message extends TelegramEntity
     public $replyToMessage;
 
     /**
-     * @var ?string
-     * For text messages, the actual UTF-8 text of the message, 0-4096 characters
+     * @var ?User Optional. Bot through which the message was sent
+     */
+    public $viaBot;
+
+    /**
+     * @var ?int Optional. Date the message was last edited in Unix time
+     */
+    public $editDate;
+
+    /**
+     * @var ?string Optional. The unique identifier of a media message group this message belongs to
+     */
+    public $mediaGroupId;
+
+    /**
+     * @var ?string Optional. Signature of the post author for messages in channels
+     */
+    public $authorSignature;
+
+    /**
+     * @var ?string Optional. For text messages, the actual UTF-8 text of the message, 0-4096 characters
      */
     public $text;
 
@@ -69,46 +107,56 @@ class Message extends TelegramEntity
     public $entities;
 
     /**
-     * @var ?Audio
-     * Опционально. Информация об аудиофайле.
+     * @var ?Animation Optional. Message is an animation, information about the animation. For backward compatibility,
+     * when this field is set, the document field will also be set
+     */
+    public $animation;
+
+    /**
+     * @var ?Audio Optional. Message is an audio file, information about the file
      */
     public $audio;
 
     /**
-     * @var ?Document
-     * Опционально. Информация о файле.
+     * @var ?Document Optional. Message is a general file, information about the file
      */
     public $document;
 
     /**
-     * @var ?PhotoSize[]
-     * Опционально. Доступные размеры фото.
+     * @var ?PhotoSize[] Optional. Message is a photo, available sizes of the photo
      */
     public $photo;
 
     /**
-     * @var ?Sticker
-     * Опционально. Информация о стикере.
+     * @var ?Sticker Optional. Message is a sticker, information about the sticker
      */
     public $sticker;
 
     /**
-     * @var ?Video
-     * Опционально. Информация о видеозаписи.
+     * @var ?Video Optional. Message is a video, information about the video
      */
     public $video;
 
     /**
-     * @var ?Voice
-     * Опционально. Информация о голосовом сообщении.
+     * @var ?VideoNote Optional. Message is a video note, information about the video message
+     */
+    public $videoNote;
+
+    /**
+     * @var ?Voice Optional. Message is a voice message, information about the file
      */
     public $voice;
 
     /**
-     * @var ?string
-     * Опционально. Подпись к файлу, фото или видео, 0-200 символов.
+     * @var ?string Optional. Caption for the animation, audio, document, photo, video or voice, 0-1024 characters
      */
     public $caption;
+
+    /**
+     * @var ?MessageEntity[] Optional. For messages with a caption, special entities like usernames, URLs,
+     * bot commands, etc. that appear in the caption
+     */
+    public $captionEntities;
 
     /**
      * @var ?Contact
@@ -117,253 +165,163 @@ class Message extends TelegramEntity
     public $contact;
 
     /**
-     * @var ?Location
-     * Опционально. Информация о местоположении.
+     * @var ?Dice Optional. Message is a dice with random value from 1 to 6
      */
-    public $location;
+    public $dice;
 
     /**
-     * @var ?Venue
-     * Опционально. Информация о месте на карте
+     * @var ?Game Optional. Message is a game, information about the game.
+     */
+    public $game;
+
+    /** @var ?Poll Optional. Message is a native poll, information about the poll */
+    public $poll;
+
+    /**
+     * @var ?Venue Optional. Message is a venue, information about the venue. For backward compatibility,
+     * when this field is set, the location field will also be set
      */
     public $venue;
 
     /**
-     * @var ?User
-     * Опционально. Информация о пользователе, добавленном в группу
+     * @var ?Location Optional. Message is a shared location, information about the location
+     */
+    public $location;
+
+    /**
+     * @var ?User Optional. New members that were added to the group or supergroup and information about them
+     * (the bot itself may be one of these members)
      */
     public $newChatMember;
 
     /**
-     * @var ?User
-     * Опционально. Информация о пользователе, удалённом из группы
+     * @var ?User Optional. A member was removed from the group, information about them
+     * (this member may be the bot itself)
      */
     public $leftChatMember;
 
     /**
-     * @var ?string
-     * Опционально. Название группы было изменено на это поле
+     * @var ?string Optional. A chat title was changed to this value
      */
     public $newChatTitle;
 
     /**
-     * @var ?PhotoSize[]
-     * Опционально. Фото группы было изменено на это поле.
+     * @var ?PhotoSize[] Optional. A chat photo was change to this value
      */
     public $newChatPhoto;
 
     /**
-     * @var ?true
-     * Опционально. Сервисное сообщение: фото группы было удалено
+     * @var ?true Optional. Service message: the chat photo was deleted
      */
     public $deleteChatPhoto;
 
     /**
-     * @var ?true
-     * Опционально. Сервисное сообщение: группа создана
+     * @var ?true Optional. Service message: the group has been created
      */
     public $groupChatCreated;
 
     /**
-     * @var ?true
-     * Опционально. Сервисное сообщение: супергруппа создана.
+     * @var ?true Optional. Service message: the supergroup has been created.
+     * This field can't be received in a message coming through updates, because
+     * bot can't be a member of a supergroup when it is created. It can only be
+     * found in reply_to_message if someone replies to a very first message in a
+     * directly created supergroup.
      */
     public $supergroupChatCreated;
 
     /**
-     * @var ?true
-     * Опционально. Сервисное сообщение: канал создан
+     * @var ?true Optional. Service message: the channel has been created.
+     * This field can't be received in a message coming through updates, because bot
+     * can't be a member of a channel when it is created. It can only be found in
+     * reply_to_message if someone replies to a very first message in a channel.
      */
     public $channelChatCreated;
 
     /**
-     * @var ?int
-     * Опционально. Группа была преобразована в супергруппу с указанным идентификатором. Не превышает 1e13.
+     * @var ?int Optional. The group has been migrated to a supergroup with the specified identifier.
+     * This number may be greater than 32 bits and some programming languages may have
+     * difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit
+     * integer or double-precision float type are safe for storing this identifier.
      */
     public $migrateToChatId;
 
     /**
-     * @var ?int
-     * Опционально. Cупергруппа была создана из группы с указанным идентификатором. Не превышает 1e13.
+     * @var ?int Optional. The supergroup has been migrated from a group with the specified identifier.
+     * This number may be greater than 32 bits and some programming languages may have difficulty/silent
+     * defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or
+     * double-precision float type are safe for storing this identifier.
      */
     public $migrateFromChatId;
 
     /**
-     * @var ?Message
-     * Опционально. Указанное сообщение было прикреплено.
-     * Note that the Message object in this field will not contain further reply_to_message fields even
-     * if it is itself a reply.
+     * @var ?Message Optional. Specified message was pinned. Note that the Message object in this field will
+     * not contain further reply_to_message fields even if it is itself a reply.
      */
     public $pinnedMessage;
 
     /**
-     * @inheritDoc
+     * @var ?Invoice Optional. Message is an invoice for a payment, information about the invoice.
      */
-    public function setData(array $data)
-    {
-        $this->messageId = (int)$data['message_id'];
+    public $invoice;
 
-        if (! empty($data['from'])) {
-            $this->from = new User($data['from']);
-        }
+    /**
+     * @var ?SuccessfulPayment Optional. Message is a service message about a successful payment,
+     * information about the payment.
+     */
+    public $successfulPayment;
 
-        $this->date = (int)$data['date'];
-        $this->chat = new Chat($data['chat']);
+    /**
+     * @var ?string Optional. The domain name of the website on which the user has logged in.
+     */
+    public $connectedWebsite;
 
-        if (! empty($data['forward_from'])) {
-            $this->forwardFrom = new User($data['forward_from']);
-        }
+    /**
+     * @var ?PassportData Optional. Telegram Passport data
+     */
+    public $passportData;
 
-        if (! empty($data['forward_date'])) {
-            $this->forwardDate = (int)$data['forward_date'];
-        }
-
-        if (! empty($data['reply_to_message'])) {
-            $this->replyToMessage = new self($data['reply_to_message']);
-        }
-
-        if (! empty($data['text'])) {
-            $this->text = (string)$data['text'];
-        }
-
-        if (! empty($data['entities'])) {
-            $this->entities = array_map(static function (array $data) {
-                return new MessageEntity($data);
-            }, $data['entities']);
-        }
-
-        if (! empty($data['audio'])) {
-            $this->audio = new Audio($data['audio']);
-        }
-
-        if (! empty($data['document'])) {
-            $this->document = new Document($data['document']);
-        }
-
-        if (! empty($data['photo'])) {
-            $this->photo = array_map(static function (array $data) {
-                return new PhotoSize($data);
-            }, $data['photo']);
-        }
-
-        if (! empty($data['sticker'])) {
-            $this->sticker = new Sticker($data['sticker']);
-        }
-
-        if (! empty($data['video'])) {
-            $this->video = new Video($data['video']);
-        }
-
-        if (! empty($data['voice'])) {
-            $this->voice = new Voice($data['voice']);
-        }
-
-        if (isset($data['caption'])) {
-            $this->caption = (string)$data['caption'];
-        }
-
-        if (! empty($data['contact'])) {
-            $this->contact = new Contact($data['contact']);
-        }
-
-        if (! empty($data['location'])) {
-            $this->location = new Location($data['location']);
-        }
-
-        if (! empty($data['venue'])) {
-            $this->venue = new Venue($data['venue']);
-        }
-
-        if (! empty($data['new_chat_member'])) {
-            $this->newChatMember = new User($data['new_chat_member']);
-        }
-
-        if (! empty($data['left_chat_member'])) {
-            $this->leftChatMember = new User($data['left_chat_member']);
-        }
-
-        if (isset($data['new_chat_title'])) {
-            $this->newChatTitle = (string)$data['new_chat_title'];
-        }
-
-        if (! empty($data['new_chat_photo'])) {
-            $this->newChatPhoto = array_map(static function (array $data) {
-                return new PhotoSize($data);
-            }, $data['new_chat_photo']);
-        }
-
-        if (isset($data['delete_chat_photo'])) {
-            $this->deleteChatPhoto = (bool)$data['delete_chat_photo'];
-        }
-
-        if (isset($data['group_chat_created'])) {
-            $this->groupChatCreated = (bool)$data['group_chat_created'];
-        }
-
-        if (isset($data['supergroup_chat_created'])) {
-            $this->supergroupChatCreated = (bool)$data['supergroup_chat_created'];
-        }
-
-        if (isset($data['channel_chat_created'])) {
-            $this->channelChatCreated = (bool)$data['channel_chat_created'];
-        }
-
-        if (isset($data['migrate_to_chat_id'])) {
-            $this->migrateToChatId = (int)$data['migrate_to_chat_id'];
-        }
-
-        if (isset($data['migrate_from_chat_id'])) {
-            $this->migrateFromChatId = (int)$data['migrate_from_chat_id'];
-        }
-
-        if (! empty($data['pinned_message'])) {
-            $this->pinnedMessage = new self($data['pinned_message']);
-        }
-    }
+    /**
+     * @var ?InlineKeyboardMarkup Optional. Inline keyboard attached to the message.
+     * login_url buttons are represented as ordinary url buttons.
+     */
+    public $replyMarkup;
 
     /**
      * @inheritDoc
      */
-    public function getData(): array
+    public function attributeEntities(): array
     {
         return [
-            'message_id' => (int)$this->messageId,
-            'from' => $this->from ? $this->from->data : null,
-            'date' => (int)$this->date,
-            'chat' => $this->chat->data,
-            'forward_from' => $this->forwardFrom ? $this->forwardFrom->data : null,
-            'forward_date' => $this->forwardDate ? (int)$this->forwardDate : null,
-            'reply_to_message' => $this->replyToMessage ? $this->replyToMessage->data : null,
-            'text' => isset($this->text) ? (string)$this->text : null,
-            'entities' => ! empty($this->entities) ? array_map(static function (MessageEntity $entity) {
-                return $entity->data;
-            }, $this->entities) : null,
-            'audio' => $this->audio ? $this->audio->data : null,
-            'document' => $this->document ? $this->document->data : null,
-            'photo' => ! empty($this->photo) ? array_map(static function (PhotoSize $photo) {
-                return $photo->data;
-            }, $this->photo) : null,
-            'sticker' => $this->sticker ? $this->sticker->data : null,
-            'video' => $this->video ? $this->video->data : null,
-            'voice' => $this->voice ? $this->voice->data : null,
-            'caption' => isset($this->caption) ? (string)$this->caption : null,
-            'contact' => $this->contact ? $this->contact->data : null,
-            'location' => $this->location ? $this->location->data : null,
-            'venue' => $this->venue ? $this->venue->data : null,
-            'new_chat_member' => $this->newChatMember ? $this->newChatMember->data : null,
-            'left_chat_member' => $this->leftChatMember ? $this->leftChatMember->data : null,
-            'new_chat_title' => isset($this->newChatTitle) ? (string)$this->newChatTitle : null,
-            'new_chat_photo' => ! empty($this->newChatPhoto) ? array_map(static function (PhotoSize $photo) {
-                return $photo->data;
-            }, $this->newChatPhoto) : null,
-            'delete_chat_photo' => isset($this->deleteChatPhoto) ? (bool)$this->deleteChatPhoto : null,
-            'group_chat_created' => isset($this->groupChatCreated) ? (bool)$this->groupChatCreated : null,
-            'supergroup_chat_created' => isset($this->supergroupChatCreated) ? (bool)$this->supergroupChatCreated :
-                null,
-            'channel_chat_created' => isset($this->channelChatCreated) ? (bool)$this->channelChatCreated : null,
-            'migrate_to_chat_id' => isset($this->migrateToChatId) ? (int)$this->migrateToChatId : null,
-            'migrate_from_chat_id' => isset($this->migrateFromChatId) ? (int)$this->migrateFromChatId : null,
-            'pinned_message' => ! empty($this->pinnedMessage) ? $this->pinnedMessage->data : null
+            'from' => User::class,
+            'chat' => Chat::class,
+            'forwardFrom' => User::class,
+            'forwardFromChat' => Chat::class,
+            'replyToMessage' => self::class,
+            'viaBot' => User::class,
+            'entities' => [MessageEntity::class],
+            'animation' => Animation::class,
+            'audio' => Audio::class,
+            'document' => Document::class,
+            'photo' => [PhotoSize::class],
+            'sticker' => Sticker::class,
+            'video' => Video::class,
+            'videoNote' => VideoNote::class,
+            'voice' => Voice::class,
+            'captionEntities' => [MessageEntity::class],
+            'contact' => Contact::class,
+            'dice' => Dice::class,
+            'game' => Game::class,
+            'poll' => Poll::class,
+            'venue' => Venue::class,
+            'location' => Location::class,
+            'newChatMembers' => [User::class],
+            'leftChatMember' => User::class,
+            'newChatPhoto' => [PhotoSize::class],
+            'pinnedMessage' => self::class,
+            'invoice' => Invoice::class,
+            'successfulPayment' => SuccessfulPayment::class,
+            'passportData' => PassportData::class,
+            'replyMarkup' => InlineKeyboardMarkup::class
         ];
     }
 }

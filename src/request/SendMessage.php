@@ -3,25 +3,31 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 21.08.20 21:05:12
+ * @version 26.08.20 00:23:47
  */
 
 declare(strict_types = 1);
 namespace dicr\telegram\request;
 
+use dicr\telegram\entity\ForceReply;
+use dicr\telegram\entity\InlineKeyboardMarkup;
 use dicr\telegram\entity\Message;
+use dicr\telegram\entity\ReplyKeyboardMarkup;
+use dicr\telegram\entity\ReplyKeyboardRemove;
 use dicr\telegram\TelegramRequest;
+use yii\base\Exception;
 
+use function get_class;
+use function gettype;
 use function is_numeric;
+use function is_object;
 
 /**
  * Запрос на отправку сообщения в чате.
  *
- * @method Message send()
- *
  * @link https://core.telegram.org/bots/api#sendmessage
  */
-class MessageRequest extends TelegramRequest
+class SendMessage extends TelegramRequest
 {
     /**
      * @var string формат сообщения markdown
@@ -68,13 +74,10 @@ class MessageRequest extends TelegramRequest
     /** @var ?int If the message is a reply, ID of the original message */
     public $replyToMessageId;
 
-    /** @var ?array
-     *
-     * InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardRemove or ForceReply
-     * Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard,
-     * instructions to remove reply keyboard or to force a reply from the user.
-     *
-     * @todo implement entities
+    /**
+     * @var InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply Additional interface options.
+     * A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply
+     * keyboard or to force a reply from the user.
      */
     public $replyMarkup;
 
@@ -113,7 +116,20 @@ class MessageRequest extends TelegramRequest
             ['replyToMessageId', 'integer'],
             ['replyToMessageId', 'filter', 'filter' => 'intval', 'skipOnEmpty' => true],
 
-            ['replyMarkup', 'default']
+            ['replyMarkup', 'default'],
+            ['replyMarkup', function (string $attribute) {
+                $markup = $this->replyMarkup;
+                if (! is_object($markup)) {
+                    $this->addError($attribute, 'Некорректный тип replyMarkup: ' . gettype($markup));
+                } elseif ((! $markup instanceof InlineKeyboardMarkup) &&
+                    (! $markup instanceof ReplyKeyboardMarkup) &&
+                    (! $markup instanceof ReplyKeyboardRemove) &&
+                    (! $markup instanceof ForceReply)
+                ) {
+                    $this->addError($attribute, 'Некорректный тип replyMarkup: ' . get_class($markup));
+                }
+            }]
+
         ];
     }
 
@@ -127,26 +143,13 @@ class MessageRequest extends TelegramRequest
 
     /**
      * @inheritDoc
-     */
-    public function data(): array
-    {
-        return [
-            'chat_id' => $this->chatId,
-            'text' => (string)$this->text,
-            'parse_mode' => $this->parseMode,
-            'disable_web_page_preview' => $this->disableWebPagePreview,
-            'disable_notification' => $this->disableNotification,
-            'reply_to_message_id' => $this->replyToMessageId,
-            'reply_markup' => $this->replyMarkup
-        ];
-    }
-
-    /**
-     * @inheritDoc
      * @return Message
+     * @throws Exception
      */
-    protected function convertResult(array $result)
+    public function send(): Message
     {
-        return new Message($result);
+        return new Message([
+            'json' => parent::send()
+        ]);
     }
 }

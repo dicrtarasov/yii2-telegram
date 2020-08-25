@@ -1,9 +1,9 @@
 <?php
-/**
+/*
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 06.07.20 23:55:11
+ * @version 25.08.20 16:08:59
  */
 
 declare(strict_types = 1);
@@ -74,44 +74,22 @@ class MessageEntity extends TelegramEntity
     /** @var int Length of the entity in UTF-16 code units */
     public $length;
 
-    /** @var string|null For “text_link” only, url that will be opened after user taps on the text */
+    /** @var ?string Optional. For “text_link” only, url that will be opened after user taps on the text */
     public $url;
 
-    /** @var User|null For “text_mention” only, the mentioned user */
+    /** @var ?User Optional. For “text_mention” only, the mentioned user */
     public $user;
 
-    /** @var string|null For “pre” only, the programming language of the entity text */
+    /** @var ?string Optional. For “pre” only, the programming language of the entity text */
     public $language;
 
     /**
      * @inheritDoc
      */
-    public function setData(array $data)
-    {
-        $this->type = (string)$data['type'];
-        $this->offset = (int)$data['offset'];
-        $this->length = (int)$data['length'];
-
-        $this->url = isset($data['url']) ? (string)$data['url'] : null;
-        $this->user = isset($data['user']) ? new User($data['user']) : null;
-        $this->language = isset($data['language']) ? (string)$data['language'] : null;
-
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getData(): array
+    public function attributeEntities(): array
     {
         return [
-            'type' => (string)$this->type,
-            'offset' => (int)$this->offset,
-            'length' => (int)$this->length,
-
-            'url' => isset($this->url) ? (string)$this->url : null,
-            'user' => isset($this->user) ? $this->user->getData() : null,
-            'language' => isset($this->language) ? (string)$this->language : null
+            'user' => User::class
         ];
     }
 }

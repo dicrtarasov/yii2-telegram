@@ -1,29 +1,24 @@
 <?php
-/**
+/*
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 06.07.20 23:54:16
+ * @version 25.08.20 23:03:13
  */
 
 declare(strict_types = 1);
 namespace dicr\telegram;
 
+use dicr\helper\JsonEntity;
 use dicr\validate\ValidateException;
 use yii\base\Exception;
-use yii\base\InvalidConfigException;
-use yii\base\Model;
-
-use function is_array;
-use function preg_replace;
-use function str_replace;
 
 /**
  * Абстрактный запрос.
  *
  * @property-read TelegramModule $module
  */
-abstract class TelegramRequest extends Model
+abstract class TelegramRequest extends JsonEntity
 {
     /** @var TelegramModule */
     private $_module;
@@ -54,51 +49,30 @@ abstract class TelegramRequest extends Model
      *
      * @return string
      */
-    public function func(): string
-    {
-        $func = str_replace(__NAMESPACE__ . '\\', '', static::class);
-
-        return preg_replace('~Request$~u', '', $func);
-    }
+    abstract public function func(): string;
 
     /**
-     * Возвращает данные для отправки.
-     *
-     * @return array
+     * @inheritDoc
+     * @throws ValidateException
      */
-    public function data(): array
+    public function getJson(): array
     {
-        return $this->attributes;
-    }
+        // проверяем модель перед возвратом данных
+        if (! $this->validate()) {
+            throw new ValidateException($this);
+        }
 
-    /**
-     * Конвертирует результат запроса.
-     *
-     * @param array $result данные результата запроса
-     * @return ?TelegramEntity
-     * Конкретный тип результата переопределяется в phpdoc наследника.
-     */
-    protected function convertResult(array $result)
-    {
-        return null;
+        return parent::getJson();
     }
 
     /**
      * Отправляет запрос.
      *
-     * @return mixed ответ
-     * @throws ValidateException
-     * @throws InvalidConfigException
-     * @throws \yii\httpclient\Exception|Exception
+     * @return array ответ (переопределяется в наследуемом классе)
+     * @throws Exception
      */
     public function send()
     {
-        if (! $this->validate()) {
-            throw new ValidateException($this);
-        }
-
-        $result = $this->module->send($this->func(), $this->data());
-
-        return is_array($result) ? $this->convertResult($result) : $result;
+        return $this->_module->send($this->func(), $this->getJson());
     }
 }

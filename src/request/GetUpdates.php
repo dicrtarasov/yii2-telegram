@@ -3,7 +3,7 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 21.08.20 22:33:07
+ * @version 26.08.20 00:23:47
  */
 
 declare(strict_types = 1);
@@ -11,26 +11,25 @@ namespace dicr\telegram\request;
 
 use dicr\telegram\entity\Update;
 use dicr\telegram\TelegramRequest;
+use yii\base\Exception;
 
 use function array_map;
 
 /**
- * Class GetUpdatesRequest.
  * Use this method to receive incoming updates using long polling (wiki).
  * An Array of Update objects is returned.
  *
  * https://core.telegram.org/bots/api#getupdates
  */
-class GetUpdatesRequest extends TelegramRequest
+class GetUpdates extends TelegramRequest
 {
     /**
-     * @var ?int
-     * Identifier of the first update to be returned. Must be greater by one than the highest
-     * among the identifiers of previously received updates. By default, updates starting with
-     * the earliest unconfirmed update are returned. An update is considered confirmed as soon
-     * as getUpdates is called with an offset higher than its update_id. The negative offset
-     * can be specified to retrieve updates starting from -offset update from the end of the
-     * updates queue. All previous updates will forgotten.
+     * @var ?int Identifier of the first update to be returned.
+     * Must be greater by one than the highest among the identifiers of previously received updates.
+     * By default, updates starting with the earliest unconfirmed update are returned. An update is
+     * considered confirmed as soon as getUpdates is called with an offset higher than its update_id.
+     * The negative offset can be specified to retrieve updates starting from -offset update from the
+     * end of the updates queue. All previous updates will forgotten.
      */
     public $offset;
 
@@ -93,25 +92,17 @@ class GetUpdatesRequest extends TelegramRequest
 
     /**
      * @inheritDoc
-     */
-    public function data(): array
-    {
-        return [
-            'offset' => $this->offset,
-            'limit' => $this->limit,
-            'timeout' => $this->timeout,
-            'allowed_updates' => $this->allowedUpdates ?: null
-        ];
-    }
-
-    /**
-     * @inheritDoc
      * @return Update[]
+     * @throws Exception
      */
-    protected function convertResult(array $result)
+    public function send(): array
     {
-        return array_map(static function (array $data) {
-            return new Update($data);
-        }, $result);
+        // преобразуем массив объектов Update
+        return array_map(static function ($data) {
+            $update = new Update();
+            $update->setJson($data);
+
+            return $update;
+        }, parent::send());
     }
 }

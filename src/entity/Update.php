@@ -1,4 +1,10 @@
 <?php
+/*
+ * @copyright 2019-2020 Dicr http://dicr.org
+ * @author Igor A Tarasov <develop@dicr.org>
+ * @license GPL
+ * @version 25.08.20 18:39:48
+ */
 
 declare(strict_types = 1);
 
@@ -7,8 +13,8 @@ namespace dicr\telegram\entity;
 use dicr\telegram\TelegramEntity;
 
 /**
- * Этот объект представляет из себя входящее обновление.
- * Под обновлением подразумевается действие, совершённое с ботом — например, получение сообщения от пользователя.
+ * This object represents an incoming update.
+ * At most one of the optional parameters can be present in any given update.
  *
  * @link https://core.telegram.org/bots/api#update
  */
@@ -92,66 +98,20 @@ class Update extends TelegramEntity
     /**
      * @inheritDoc
      */
-    public function setData(array $data)
-    {
-        $this->updateId = (int)$data['update_id'];
-
-        if (! empty($data['message'])) {
-            $this->message = new Message($data['message']);
-        }
-
-        if (! empty($data['edited_message'])) {
-            $this->editedMessage = new Message($data['edited_message']);
-        }
-
-        if (! empty($data['channel_post'])) {
-            $this->channelPost = new Message($data['channel_post']);
-        }
-
-        if (! empty($data['edited_channel_post'])) {
-            $this->editedChannelPost = new Message($data['edited_channel_post']);
-        }
-
-        if (! empty($data['inline_query'])) {
-            $this->inlineQuery = new InlineQuery($data['inline_query']);
-        }
-
-        if (! empty($data['chosen_inline_result'])) {
-            $this->chosenInlineResult = new ChosenInlineResult($data['chosen_inline_result']);
-        }
-
-        if (! empty($data['callback_query'])) {
-            $this->inlineQuery = new InlineQuery($data['callback_query']);
-        }
-
-        if (! empty($data['shipping_query'])) {
-            $this->shippingQuery = new ShippingQuery($data['shipping_query']);
-        }
-
-        if (! empty($data['pre_checkout_query'])) {
-            $this->preCheckoutQuery = new PreCheckoutQuery($data['pre_checkout_query']);
-        }
-
-        if (! empty($data['poll'])) {
-            $this->poll = new Poll($data['poll']);
-        }
-
-        if (! empty($data['poll_answer'])) {
-            $this->pollAnswer = new PollAnswer($data['poll_answer']);
-        }
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getData(): array
+    public function attributeEntities(): array
     {
         return [
-            'update_id' => $this->updateId,
-            'message' => ! empty($this->message) ? $this->message->data : null,
-            'inline_query' => ! empty($this->inlineQuery) ? $this->inlineQuery->data : null,
-            'chosen_inline_result' => ! empty($this->choosenInlineResult) ? $this->choosenInlineResult->data : null,
-            'callback_query' => ! empty($this->callbackQuery) ? $this->callbackQuery->data : null
+            'message' => Message::class,
+            'editedMessage' => Message::class,
+            'channelPost' => Message::class,
+            'editedChannelPost' => Message::class,
+            'inlineQuery' => InlineQuery::class,
+            'chosenInlineResult' => ChosenInlineResult::class,
+            'callbackQuery' => CallbackQuery::class,
+            'shippingQuery' => ShippingQuery::class,
+            'preCheckoutQuery' => PreCheckoutQuery::class,
+            'poll' => Poll::class,
+            'pollAnswer' => PollAnswer::class
         ];
     }
 }
