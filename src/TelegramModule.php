@@ -3,7 +3,7 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 26.08.20 01:03:57
+ * @version 26.08.20 02:02:52
  */
 
 declare(strict_types = 1);
@@ -18,6 +18,7 @@ use yii\base\InvalidConfigException;
 use yii\base\Module;
 use yii\httpclient\Client;
 use yii\web\Application;
+use yii\web\JsonParser;
 
 use function array_filter;
 use function is_callable;
@@ -74,7 +75,7 @@ class TelegramModule extends Module
 
         // принимаем JSON-запросы
         if (Yii::$app instanceof Application) {
-            Yii::$app->request->parsers['application/json'] = yii\web\JsonParser::class;
+            Yii::$app->request->parsers['application/json'] = JsonParser::class;
         }
     }
 

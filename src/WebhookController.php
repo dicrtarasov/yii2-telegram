@@ -3,7 +3,7 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license GPL
- * @version 26.08.20 00:38:05
+ * @version 26.08.20 02:18:35
  */
 
 declare(strict_types = 1);
@@ -14,6 +14,7 @@ use dicr\telegram\entity\Update;
 use Yii;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
+use yii\web\Response;
 
 use function call_user_func;
 
@@ -33,7 +34,7 @@ class WebhookController extends Controller
     /**
      * Индекс.
      *
-     * @return TelegramResponse
+     * @return Response
      * @throws BadRequestHttpException
      */
     public function actionIndex()
