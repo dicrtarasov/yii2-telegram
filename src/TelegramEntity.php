@@ -2,15 +2,15 @@
 /*
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 22:05:10
+ * @license MIT
+ * @version 05.11.20 04:36:26
  */
 
 declare(strict_types = 1);
 
 namespace dicr\telegram;
 
-use dicr\helper\JsonEntity;
+use dicr\json\JsonEntity;
 
 /**
  * Базовый элемент данных.

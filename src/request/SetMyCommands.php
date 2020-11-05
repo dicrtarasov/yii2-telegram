@@ -2,19 +2,17 @@
 /*
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 26.08.20 00:35:00
+ * @license MIT
+ * @version 05.11.20 04:56:37
  */
 
 declare(strict_types = 1);
 namespace dicr\telegram\request;
 
+use dicr\json\EntityValidator;
 use dicr\telegram\entity\BotCommand;
 use dicr\telegram\TelegramRequest;
-use dicr\validate\ValidateException;
 use yii\base\Exception;
-
-use function is_array;
 
 /**
  * Use this method to change the list of the bot's commands. Returns True on success.
@@ -33,29 +31,18 @@ class SetMyCommands extends TelegramRequest
     /**
      * @inheritDoc
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             ['commands', 'required'],
-            ['commands', function (string $attribute) {
-                if (is_array($this->commands)) {
-                    foreach ($this->commands as $command) {
-                        if (! $command->validate()) {
-                            $this->addError($attribute, (new ValidateException($command))->getMessage());
-                            break;
-                        }
-                    }
-                } else {
-                    $this->addError($attribute, 'Список команд должен быть массивом BotCommand');
-                }
-            }]
+            ['commands', EntityValidator::class]
         ];
     }
 
     /**
      * @inheritDoc
      */
-    public function func(): string
+    public function func() : string
     {
         return 'setMyCommands';
     }
@@ -64,7 +51,7 @@ class SetMyCommands extends TelegramRequest
      * @inheritDoc
      * @throws Exception
      */
-    public function send(): void
+    public function send() : void
     {
         parent::send();
     }

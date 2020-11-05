@@ -2,8 +2,8 @@
 /*
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 26.08.20 00:23:47
+ * @license MIT
+ * @version 05.11.20 05:14:58
  */
 
 declare(strict_types = 1);
@@ -15,10 +15,12 @@ use dicr\telegram\entity\Message;
 use dicr\telegram\entity\ReplyKeyboardMarkup;
 use dicr\telegram\entity\ReplyKeyboardRemove;
 use dicr\telegram\TelegramRequest;
+use Yii;
 use yii\base\Exception;
 
 use function get_class;
 use function gettype;
+use function is_array;
 use function is_numeric;
 use function is_object;
 
@@ -84,7 +86,7 @@ class SendMessage extends TelegramRequest
     /**
      * @inheritDoc
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             ['chatId', 'trim'],
@@ -119,34 +121,39 @@ class SendMessage extends TelegramRequest
             ['replyMarkup', 'default'],
             ['replyMarkup', function (string $attribute) {
                 $markup = $this->replyMarkup;
-                if (! is_object($markup)) {
+                if (is_array($markup)) {
+                    $markup = Yii::createObject($markup);
+                } elseif (! is_object($markup)) {
                     $this->addError($attribute, 'Некорректный тип replyMarkup: ' . gettype($markup));
-                } elseif ((! $markup instanceof InlineKeyboardMarkup) &&
+                }
+
+                if ((! $markup instanceof InlineKeyboardMarkup) &&
                     (! $markup instanceof ReplyKeyboardMarkup) &&
                     (! $markup instanceof ReplyKeyboardRemove) &&
                     (! $markup instanceof ForceReply)
                 ) {
                     $this->addError($attribute, 'Некорректный тип replyMarkup: ' . get_class($markup));
                 }
-            }]
 
+                $this->replyMarkup = $markup;
+            }]
         ];
     }
 
     /**
      * @inheritDoc
      */
-    public function func(): string
+    public function func() : string
     {
         return 'sendMessage';
     }
 
     /**
      * @inheritDoc
-     * @return Message
+     * @return Message отправленное сообщение
      * @throws Exception
      */
-    public function send(): Message
+    public function send() : Message
     {
         return new Message([
             'json' => parent::send()

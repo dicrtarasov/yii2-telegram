@@ -2,8 +2,8 @@
 /*
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 26.08.20 03:09:00
+ * @license MIT
+ * @version 05.11.20 04:47:21
  */
 
 declare(strict_types = 1);
@@ -36,11 +36,10 @@ class GetMyCommands extends TelegramRequest
      */
     public function send(): array
     {
-        return array_map(static function ($data) {
-            $command = new BotCommand();
-            $command->setJson($data);
-
-            return $command;
+        return array_map(static function ($data) : BotCommand {
+            return new BotCommand([
+                'json' => $data
+            ]);
         }, parent::send());
     }
 }

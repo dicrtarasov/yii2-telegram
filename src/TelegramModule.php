@@ -2,8 +2,8 @@
 /*
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 26.08.20 02:02:52
+ * @license MIT
+ * @version 05.11.20 04:59:31
  */
 
 declare(strict_types = 1);
@@ -20,9 +20,8 @@ use yii\httpclient\Client;
 use yii\web\Application;
 use yii\web\JsonParser;
 
-use function array_filter;
+use function array_merge;
 use function is_callable;
-use function sleep;
 
 /**
  * Модуль для Telegram.
@@ -57,7 +56,7 @@ class TelegramModule extends Module
      *
      * @throws InvalidConfigException
      */
-    public function init()
+    public function init() : void
     {
         parent::init();
 
@@ -88,24 +87,14 @@ class TelegramModule extends Module
      * @return Client
      * @throws InvalidConfigException
      */
-    public function getHttpClient(): Client
+    public function getHttpClient() : Client
     {
-        if (! isset($this->_httpClient)) {
-            $config = $this->httpClientConfig ?: [];
-
-            if (! isset($config['class'])) {
-                $config['class'] = Client::class;
-            }
-
-            if (! isset($config['baseUrl'])) {
-                $config['baseUrl'] = $this->apiUrl . '/bot' . $this->botToken;
-            }
-
-            if (! isset($config['as compression'])) {
-                $config['as compression'] = HttpCompressionBehavior::class;
-            }
-
-            $this->_httpClient = Yii::createObject($config);
+        if ($this->_httpClient === null) {
+            $this->_httpClient = Yii::createObject(array_merge([
+                'class' => Client::class,
+                'baseUrl' => $this->apiUrl . '/bot' . $this->botToken,
+                'as compression' => HttpCompressionBehavior::class
+            ], $this->httpClientConfig ?: []));
         }
 
         return $this->_httpClient;
@@ -118,69 +107,10 @@ class TelegramModule extends Module
      * @return TelegramRequest
      * @throws InvalidConfigException
      */
-    public function createRequest(array $config): TelegramRequest
+    public function createRequest(array $config) : TelegramRequest
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return Yii::createObject($config, [$this]);
-    }
-
-    /**
-     * Отправляет данные.
-     *
-     * @param string $url URL функции
-     * @param array $data данные для отправки
-     * @return mixed ответ
-     * @throws Exception
-     */
-    public function send(string $url, array $data)
-    {
-        // фильтруем данные
-        $data = array_filter($data, static function ($val) {
-            return $val !== null && $val !== '' && $val !== [];
-        });
-
-        // создаем запрос
-        $request = $this->getHttpClient()->post($url, $data, [
-            'Content-Type' => 'application/json; charset=UTF-8',
-            'Accept' => 'application/json',
-            'Accept-Charset' => 'UTF-8'
-        ]);
-
-        // получаем ответ
-        $response = $request->send();
-        if (! $response->isOk) {
-            throw new Exception('Ошибка отправки запроса: ' . $response->statusCode);
-        }
-
-        // проверяем ответ
-        $response->format = Client::FORMAT_JSON;
-
-        // формируем ответ Telegram
-        $tgResponse = new TelegramResponse([
-            'json' => $response->data
-        ]);
-
-        // обработка ошибок
-        if (empty($tgResponse->ok)) {
-            // если запрос был отфильтрован из-за flood-фильтра, то повторяем запрос
-            $retryAfter = (int)$tgResponse->parameters->retryAfter;
-            if (! empty($retryAfter)) {
-                Yii::warning(
-                    'Сработал flood-фильтр, ожидаем ' . $retryAfter . ' секунд ...', __METHOD__
-                );
-
-                // спим ...
-                sleep($retryAfter);
-
-                // повторяем отправку запроса
-                return $this->send($url, $data);
-            }
-
-            throw new Exception('Ошибка отправки запроса: ' . $tgResponse->description);
-        }
-
-        // возвращаем результат
-        return $tgResponse->result;
     }
 
     /**
@@ -188,7 +118,7 @@ class TelegramModule extends Module
      *
      * @throws Exception
      */
-    public function installWebHook(): void
+    public function installWebHook() : void
     {
         /** @var SetWebhook $request */
         $request = $this->createRequest([

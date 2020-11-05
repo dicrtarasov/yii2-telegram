@@ -2,8 +2,8 @@
 /*
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 26.08.20 02:18:35
+ * @license MIT
+ * @version 05.11.20 04:48:34
  */
 
 declare(strict_types = 1);
@@ -37,13 +37,13 @@ class WebhookController extends Controller
      * @return Response
      * @throws BadRequestHttpException
      */
-    public function actionIndex()
+    public function actionIndex() : Response
     {
         if (! Yii::$app->request->isPost) {
             throw new BadRequestHttpException();
         }
 
-        Yii::debug('Webhook запрос: ' . Yii::$app->request->rawBody);
+        Yii::debug('Webhook: ' . Yii::$app->request->rawBody);
 
         $ret = true;
 

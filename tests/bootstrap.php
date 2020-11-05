@@ -2,8 +2,8 @@
 /*
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 19:16:12
+ * @license MIT
+ * @version 05.11.20 05:02:40
  */
 
 /** @noinspection PhpUnhandledExceptionInspection */
@@ -20,13 +20,25 @@ require_once(dirname(__DIR__) . '/vendor/yiisoft/yii2/Yii.php');
 
 new yii\console\Application([
     'id' => 'test',
-    'basePath' => __DIR__,
+    'basePath' => dirname(__DIR__),
     'components' => [
-        'cache' => yii\caching\ArrayCache::class,
+        'cache' => yii\caching\FileCache::class,
+        'log' => [
+            'targets' => [
+                [
+                    'class' => yii\log\FileTarget::class,
+                    'levels' => ['error', 'warning', 'info', 'debug']
+                ]
+            ]
+        ],
         'urlManager' => [
             'hostInfo' => 'https://dicr.org'
         ]
     ],
     'modules' => [
+        'telegram' => [
+            'class' => dicr\telegram\TelegramModule::class,
+            'botToken' => 'ваш токен'
+        ]
     ]
 ]);

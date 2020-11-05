@@ -2,8 +2,8 @@
 /*
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 26.08.20 00:23:47
+ * @license MIT
+ * @version 05.11.20 04:48:05
  */
 
 declare(strict_types = 1);
@@ -62,7 +62,7 @@ class GetUpdates extends TelegramRequest
     /**
      * @inheritDoc
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             ['offset', 'default'],
@@ -85,7 +85,7 @@ class GetUpdates extends TelegramRequest
     /**
      * @inheritDoc
      */
-    public function func(): string
+    public function func() : string
     {
         return 'getUpdates';
     }
@@ -95,14 +95,13 @@ class GetUpdates extends TelegramRequest
      * @return Update[]
      * @throws Exception
      */
-    public function send(): array
+    public function send() : array
     {
         // преобразуем массив объектов Update
-        return array_map(static function ($data) {
-            $update = new Update();
-            $update->setJson($data);
-
-            return $update;
+        return array_map(static function ($data) : Update {
+            return new Update([
+                'json' => $data
+            ]);
         }, parent::send());
     }
 }

@@ -2,18 +2,17 @@
 /*
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 26.08.20 00:23:47
+ * @license MIT
+ * @version 05.11.20 05:19:28
  */
 
 declare(strict_types = 1);
 namespace dicr\telegram\request;
 
+use dicr\json\EntityValidator;
 use dicr\telegram\entity\InputFile;
 use dicr\telegram\TelegramRequest;
 use yii\base\Exception;
-
-use function gettype;
 
 /**
  * Use this method to specify a url and receive incoming updates via an outgoing webhook.
@@ -59,18 +58,14 @@ class SetWebhook extends TelegramRequest
     /**
      * @inheritDoc
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             ['url', 'trim'],
             ['url', 'url', 'skipOnEmpty' => true],
 
             ['certificate', 'default'],
-            ['certificate', function (string $attribute) {
-                if (! $this->certificate instanceof InputFile) {
-                    $this->addError($attribute, 'Некорректный тип сертификата: ' . gettype($this->certificate));
-                }
-            }],
+            ['certificate', EntityValidator::class],
 
             ['maxConnections', 'default'],
             ['maxConnections', 'integer', 'min' => 1, 'max' => 100],

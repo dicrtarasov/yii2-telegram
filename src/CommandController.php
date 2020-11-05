@@ -2,8 +2,8 @@
 /*
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 26.08.20 01:00:23
+ * @license MIT
+ * @version 05.11.20 04:47:05
  */
 
 declare(strict_types = 1);
@@ -32,7 +32,7 @@ class CommandController extends Controller
      * @throws Exception
      * @throws InvalidConfigException
      */
-    public function actionWebhookInfo()
+    public function actionWebhookInfo() : void
     {
         /** @var GetWebhookInfo $request */
         $request = $this->module->createRequest([
@@ -64,7 +64,7 @@ class CommandController extends Controller
      *
      * @throws Exception
      */
-    public function actionWebhookSet()
+    public function actionWebhookSet() : void
     {
         $this->module->installWebHook();
         echo "Done\n";
@@ -75,7 +75,7 @@ class CommandController extends Controller
      *
      * @throws Exception
      */
-    public function actionWebhookDelete()
+    public function actionWebhookDelete() : void
     {
         /** @var DeleteWebHook $request */
         $request = $this->module->createRequest([

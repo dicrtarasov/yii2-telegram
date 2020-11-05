@@ -2,8 +2,8 @@
 /*
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 26.08.20 03:05:43
+ * @license MIT
+ * @version 05.11.20 04:45:49
  */
 
 declare(strict_types = 1);
@@ -36,7 +36,7 @@ class BotCommand extends TelegramEntity
     /**
      * @inheritDoc
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             ['command', 'trim'],
@@ -59,7 +59,7 @@ class BotCommand extends TelegramEntity
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->command . ' - ' . $this->description;
     }
