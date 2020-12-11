@@ -3,7 +3,7 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license MIT
- * @version 11.12.20 21:56:02
+ * @version 11.12.20 22:23:00
  */
 
 declare(strict_types = 1);
@@ -22,7 +22,7 @@ use function sleep;
 abstract class TelegramRequest extends TelegramEntity
 {
     /** @var TelegramModule */
-    private $_module;
+    protected $module;
 
     /**
      * Конструктор.
@@ -32,7 +32,7 @@ abstract class TelegramRequest extends TelegramEntity
      */
     public function __construct(TelegramModule $module, array $config = [])
     {
-        $this->_module = $module;
+        $this->module = $module;
 
         parent::__construct($config);
     }
@@ -60,10 +60,11 @@ abstract class TelegramRequest extends TelegramEntity
         });
 
         // создаем запрос
-        $req = $this->_module->httpClient->post($this->func(), $data, [
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json'
-        ]);
+        $req = $this->module->httpClient()
+            ->post($this->func(), $data, [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json'
+            ]);
 
         // получаем ответ
         Yii::debug('Запрос: ' . $req->toString(), __METHOD__);

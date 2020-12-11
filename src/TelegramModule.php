@@ -3,7 +3,7 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license MIT
- * @version 05.11.20 04:59:31
+ * @version 11.12.20 22:22:11
  */
 
 declare(strict_types = 1);
@@ -26,7 +26,6 @@ use function is_callable;
 /**
  * Модуль для Telegram.
  *
- * @property-read Client $httpClient
  * @link https://core.telegram.org/bots/api
  */
 class TelegramModule extends Module
@@ -87,7 +86,7 @@ class TelegramModule extends Module
      * @return Client
      * @throws InvalidConfigException
      */
-    public function getHttpClient() : Client
+    public function httpClient() : Client
     {
         if ($this->_httpClient === null) {
             $this->_httpClient = Yii::createObject(array_merge([
