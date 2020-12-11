@@ -3,7 +3,7 @@
  * @copyright 2019-2020 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license MIT
- * @version 05.11.20 04:42:53
+ * @version 11.12.20 21:56:02
  */
 
 declare(strict_types = 1);
@@ -55,7 +55,7 @@ abstract class TelegramRequest extends TelegramEntity
     public function send()
     {
         // фильтруем данные
-        $data = array_filter($this->getJson(), static function ($val) : bool {
+        $data = array_filter($this->json, static function ($val) : bool {
             return $val !== null && $val !== '' && $val !== [];
         });
 
@@ -68,8 +68,8 @@ abstract class TelegramRequest extends TelegramEntity
         // получаем ответ
         Yii::debug('Запрос: ' . $req->toString(), __METHOD__);
         $res = $req->send();
-
         Yii::debug('Ответ: ' . $res->toString(), __METHOD__);
+
         if (! $res->isOk) {
             throw new Exception('HTTP-error: ' . $res->statusCode);
         }
