@@ -5,10 +5,12 @@
 ## Настройка компонента
 
 ```php
-'components' => [
-    'telegram' => [
-        'class' => dicr\telegram\TelegramModule::class,
-        'botToken' => 'ваш токен'
+$config = [
+    'components' => [
+        'telegram' => [
+            'class' => dicr\telegram\TelegramModule::class,
+            'botToken' => 'ваш токен'
+        ]
     ]
 ];
 ```
@@ -54,13 +56,15 @@ $response = $request->send();
 use dicr\telegram\entity\Update;
 use dicr\telegram\TelegramModule;
 
-'components' => [
-    'telegram' => [
-        'class' => dicr\telegram\TelegramModule::class,
-        'botToken' => 'ваш токен',
-        'handler' => static function(Update $update, TelegramModule $module) {
-            // обработка обновлений от webhook
-        }
+$config = [
+    'components' => [
+        'telegram' => [
+            'class' => dicr\telegram\TelegramModule::class,
+            'botToken' => 'ваш токен',
+            'handler' => static function(Update $update, TelegramModule $module) {
+                // обработка обновлений от webhook
+            }
+        ]
     ]
 ];
 ```

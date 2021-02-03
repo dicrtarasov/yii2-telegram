@@ -29,7 +29,7 @@
     "minimum-stability": "RC",
     "prefer-stable": true,
     "require": {
-        "php": "~7.3",
+        "php": "~7.4 || ~8.0.1",
         "ext-json": "*",
         "yiisoft/yii2": "~2.0",
 
@@ -43,8 +43,10 @@
         "phpunit/phpunit": "~9.5"
     },
     "repositories": [
+        {"type": "composer", "url": "https://asset-packagist.org"},
+        {"type": "git", "url": "https://gitlab.com/dicr/yii2-json.git"},
+        {"type": "git", "url": "https://gitlab.com/dicr/yii2-helper.git"},
         {"type": "git", "url": "https://gitlab.com/dicr/yii2-http.git"},
-        {"type": "git", "url": "https://gitlab.com/dicr/yii2-validate.git"},
-        {"type": "composer", "url": "https://asset-packagist.org"}
+        {"type": "git", "url": "https://gitlab.com/dicr/yii2-validate.git"}
     ]
 }

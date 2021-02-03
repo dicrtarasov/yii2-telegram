@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2021 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license MIT
- * @version 11.12.20 22:23:00
+ * @version 03.02.21 21:08:44
  */
 
 declare(strict_types = 1);
@@ -42,7 +42,7 @@ abstract class TelegramRequest extends TelegramEntity
      *
      * @return string
      */
-    abstract public function func() : string;
+    abstract public function func(): string;
 
     /**
      * Отправляет запрос.
@@ -55,9 +55,10 @@ abstract class TelegramRequest extends TelegramEntity
     public function send()
     {
         // фильтруем данные
-        $data = array_filter($this->json, static function ($val) : bool {
-            return $val !== null && $val !== '' && $val !== [];
-        });
+        $data = array_filter(
+            $this->json,
+            static fn($val): bool => $val !== null && $val !== '' && $val !== []
+        );
 
         // создаем запрос
         $req = $this->module->httpClient()

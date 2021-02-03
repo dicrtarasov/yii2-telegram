@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2021 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license MIT
- * @version 05.11.20 04:48:05
+ * @version 03.02.21 21:10:19
  */
 
 declare(strict_types = 1);
@@ -98,10 +98,8 @@ class GetUpdates extends TelegramRequest
     public function send() : array
     {
         // преобразуем массив объектов Update
-        return array_map(static function ($data) : Update {
-            return new Update([
-                'json' => $data
-            ]);
-        }, parent::send());
+        return array_map(static fn($data): Update => new Update([
+            'json' => $data
+        ]), parent::send());
     }
 }
