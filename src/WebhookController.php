@@ -1,61 +1,88 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2021 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license MIT
- * @version 05.11.20 04:48:34
+ * @version 05.10.21 00:49:09
  */
 
 declare(strict_types = 1);
-
 namespace dicr\telegram;
 
-use dicr\telegram\entity\Update;
-use Yii;
-use yii\web\BadRequestHttpException;
-use yii\web\Controller;
-use yii\web\Response;
+use dicr\telegram\request\DeleteWebHook;
+use dicr\telegram\request\GetWebhookInfo;
+use yii\base\Exception;
+use yii\base\InvalidConfigException;
+use yii\console\Controller;
 
-use function call_user_func;
+use function date;
+use function implode;
+use function printf;
 
 /**
- * Class WebhookController
+ * Консольный контроллер установки webhook.
  *
  * @property-read TelegramModule $module
  */
 class WebhookController extends Controller
 {
     /**
-     * @inheritDoc
-     * Отключаем CSRF для запросов от Telegram.
+     * Получить состояние webhook.
+     *
+     * @throws Exception
+     * @throws InvalidConfigException
      */
-    public $enableCsrfValidation = false;
+    public function actionInfo(): void
+    {
+        /** @var GetWebhookInfo $request */
+        $request = $this->module->createRequest([
+            'class' => GetWebhookInfo::class,
+        ]);
+
+        $info = $request->send();
+
+        printf("URL: %s\n", $info->url ?: '-');
+
+        printf("HasCustomCertificate: %s\n", $info->hasCustomCertificate ? 'yes' : 'no');
+
+        printf("PendingUpdateCount: %d\n", $info->pendingUpdateCount);
+
+        printf("LastErrorDate: %s\n", empty($info->lastErrorDate) ? '-' :
+            date('d.m.Y H:i:s', $info->lastErrorDate)
+        );
+
+        printf("LastErrorMessage: %s\n", $info->lastErrorMessage ?: '-');
+        printf("MaxConnections: %d\n", $info->maxConnections);
+
+        printf("AllowedUpdates: %s\n", empty($info->allowedUpdates) ? '-' :
+            implode(', ', $info->allowedUpdates)
+        );
+    }
 
     /**
-     * Индекс.
+     * Установить webhook.
      *
-     * @return Response
-     * @throws BadRequestHttpException
+     * @throws Exception
      */
-    public function actionIndex() : Response
+    public function actionSet(): void
     {
-        if (! Yii::$app->request->isPost) {
-            throw new BadRequestHttpException();
-        }
+        $this->module->installWebHook();
+        echo "Done\n";
+    }
 
-        Yii::debug('Webhook: ' . Yii::$app->request->rawBody);
+    /**
+     * Удалить webhook.
+     *
+     * @throws Exception
+     */
+    public function actionDelete(): void
+    {
+        /** @var DeleteWebHook $request */
+        $request = $this->module->createRequest([
+            'class' => DeleteWebHook::class,
+        ]);
 
-        $ret = true;
-
-        // вызываем пользовательский обработчик
-        if (! empty($this->module->handler)) {
-            $update = new Update([
-                'json' => Yii::$app->request->bodyParams
-            ]);
-
-            $ret = call_user_func($this->module->handler, $update, $this->module);
-        }
-
-        return $this->asJson($ret);
+        $request->send();
+        echo "Done\n";
     }
 }

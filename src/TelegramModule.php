@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2021 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license MIT
- * @version 11.12.20 22:22:11
+ * @version 05.10.21 00:46:34
  */
 
 declare(strict_types = 1);
@@ -122,7 +122,7 @@ class TelegramModule extends Module
         /** @var SetWebhook $request */
         $request = $this->createRequest([
             'class' => SetWebhook::class,
-            'url' => Url::to('/' . $this->uniqueId . '/webhook', true)
+            'url' => Url::to('/' . $this->uniqueId . '/callback', true)
         ]);
 
         // при ошибке будет Exception
