@@ -1,18 +1,17 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license MIT
- * @version 05.11.20 05:19:28
+ * @version 23.01.22 03:10:29
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 namespace dicr\telegram\request;
 
 use dicr\json\EntityValidator;
 use dicr\telegram\entity\InputFile;
 use dicr\telegram\TelegramRequest;
-use yii\base\Exception;
 
 /**
  * Use this method to specify a url and receive incoming updates via an outgoing webhook.
@@ -24,27 +23,20 @@ use yii\base\Exception;
  */
 class SetWebhook extends TelegramRequest
 {
-    /**
-     * @var string
-     * HTTPS url to send updates to. Use an empty string to remove webhook integration
-     */
-    public $url;
+    /** HTTPS url to send updates to. Use an empty string to remove webhook integration */
+    public ?string $url = null;
+
+    public ?InputFile $certificate = null;
 
     /**
-     * @var ?InputFile
-     */
-    public $certificate;
-
-    /**
-     * @var ?int
      * Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100.
      * Defaults to 40. Use lower values to limit the load on your bot's server, and higher values to increase
      * your bot's throughput.
      */
-    public $maxConnections;
+    public ?int $maxConnections = null;
 
     /**
-     * @var ?string[]
+     * @var string[]|null
      * A JSON-serialized list of the update types you want your bot to receive.
      * For example, specify [“message”, “edited_channel_post”, “callback_query”] to only receive updates
      * of these types. See Update for a complete list of available update types. Specify an empty list to
@@ -53,12 +45,12 @@ class SetWebhook extends TelegramRequest
      * Please note that this parameter doesn't affect updates created before the call to the setWebhook,
      * so unwanted updates may be received for a short period of time.
      */
-    public $allowedUpdates;
+    public ?array $allowedUpdates = null;
 
     /**
      * @inheritDoc
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             ['url', 'trim'],
@@ -92,14 +84,5 @@ class SetWebhook extends TelegramRequest
     public function func(): string
     {
         return 'setWebhook';
-    }
-
-    /**
-     * @inheritDoc
-     * @throws Exception
-     */
-    public function send(): void
-    {
-        parent::send();
     }
 }

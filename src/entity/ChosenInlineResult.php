@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 16:59:43
+ * @license MIT
+ * @version 23.01.22 03:24:56
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram\entity;
 
@@ -19,25 +19,23 @@ use dicr\telegram\TelegramEntity;
  */
 class ChosenInlineResult extends TelegramEntity
 {
-    /** @var string The unique identifier for the result that was chosen */
-    public $resultId;
+    /** The unique identifier for the result that was chosen */
+    public ?string $resultId = null;
 
-    /** @var User The user that chose the result */
-    public $from;
+    /** The user that chose the result */
+    public array|User|null $from = null;
 
-    /** @var ?Location Optional. Sender location, only for bots that require user location */
-    public $location;
+    /** Optional. Sender location, only for bots that require user location */
+    public array|Location|null $location = null;
 
     /**
-     * @var string Optional. Identifier of the sent inline message. Available only if there is an inline keyboard
+     * Optional. Identifier of the sent inline message. Available only if there is an inline keyboard
      * attached to the message. Will be also received in callback queries and can be used to edit the message.
      */
-    public $inlineMessageId;
+    public ?string $inlineMessageId = null;
 
-    /**
-     * @var string The query that was used to obtain the result
-     */
-    public $query;
+    /** The query that was used to obtain the result */
+    public ?string $query = null;
 
     /**
      * @inheritDoc

@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 16:51:12
+ * @license MIT
+ * @version 23.01.22 03:16:39
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram\entity;
 
@@ -24,37 +24,33 @@ use dicr\telegram\TelegramEntity;
  */
 class CallbackQuery extends TelegramEntity
 {
-    /** @var string Unique identifier for this query */
-    public $id;
+    /** Unique identifier for this query */
+    public ?string $id = null;
 
-    /** @var User Sender */
-    public $from;
+    /** Sender */
+    public array|User|null $from = null;
 
     /**
-     * @var ?Message Optional. Message with the callback button that originated the query. Note that message
+     * Optional. Message with the callback button that originated the query. Note that message
      * content and message date will not be available if the message is too old
      */
-    public $message;
+    public array|Message|null $message = null;
+
+    /** Optional. Identifier of the message sent via the bot in inline mode, that originated the query. */
+    public ?string $inlineMessageId = null;
 
     /**
-     * @var ?string Optional. Identifier of the message sent via the bot in inline mode, that originated the query.
-     */
-    public $inlineMessageId;
-
-    /**
-     * @var string Global identifier, uniquely corresponding to the chat to which the message with the callback
+     * Global identifier, uniquely corresponding to the chat to which the message with the callback
      * button was sent. Useful for high scores in games.
      */
-    public $chatInstance;
+    public ?string $chatInstance = null;
 
     /**
-     * @var ?string Optional. Data associated with the callback button. Be aware that a bad client can send
+     * Optional. Data associated with the callback button. Be aware that a bad client can send
      * arbitrary data in this field.
      */
-    public $data;
+    public ?string $data = null;
 
-    /**
-     * @var ?string Optional. Short name of a Game to be returned, serves as the unique identifier for the game
-     */
-    public $gameShortName;
+    /** Optional. Short name of a Game to be returned, serves as the unique identifier for the game */
+    public ?string $gameShortName = null;
 }

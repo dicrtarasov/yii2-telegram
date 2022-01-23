@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 23:26:26
+ * @license MIT
+ * @version 23.01.22 04:03:16
  */
 
 declare(strict_types = 1);
@@ -23,14 +23,14 @@ use dicr\telegram\TelegramEntity;
 class ReplyKeyboardRemove extends TelegramEntity
 {
     /**
-     * @var true Requests clients to remove the custom keyboard
+     * Requests clients to remove the custom keyboard
      * (user will not be able to summon this keyboard; if you want to hide the keyboard
      * from sight but keep it accessible, use one_time_keyboard in ReplyKeyboardMarkup)
      */
-    public $removeKeyboard;
+    public ?bool $removeKeyboard = null;
 
     /**
-     * @var ?bool Optional. Use this parameter if you want to remove the keyboard for specific users only.
+     * Optional. Use this parameter if you want to remove the keyboard for specific users only.
      *
      * Targets:
      * 1) users that are @mentioned in the text of the Message object;
@@ -40,5 +40,5 @@ class ReplyKeyboardRemove extends TelegramEntity
      * the keyboard for that user, while still showing the keyboard with poll options to users who haven't
      * voted yet.
      */
-    public $selective;
+    public ?bool $selective = null;
 }

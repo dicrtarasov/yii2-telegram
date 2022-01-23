@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2021 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license MIT
- * @version 03.02.21 21:10:19
+ * @version 23.01.22 03:05:01
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 namespace dicr\telegram\request;
 
 use dicr\telegram\entity\Update;
@@ -24,27 +24,25 @@ use function array_map;
 class GetUpdates extends TelegramRequest
 {
     /**
-     * @var ?int Identifier of the first update to be returned.
+     * Identifier of the first update to be returned.
      * Must be greater by one than the highest among the identifiers of previously received updates.
      * By default, updates starting with the earliest unconfirmed update are returned. An update is
      * considered confirmed as soon as getUpdates is called with an offset higher than its update_id.
      * The negative offset can be specified to retrieve updates starting from -offset update from the
      * end of the updates queue. All previous updates will forgotten.
      */
-    public $offset;
+    public ?int $offset = null;
 
     /**
-     * @var ?int
      * Limits the number of updates to be retrieved. Values between 1-100 are accepted. Defaults to 100.
      */
-    public $limit;
+    public ?int $limit = null;
 
     /**
-     * @var ?int
      * Timeout in seconds for long polling. Defaults to 0, i.e. usual short polling. Should be positive, short
      * polling should be used for testing purposes only.
      */
-    public $timeout;
+    public ?int $timeout = null;
 
     /**
      * @var ?string[]
@@ -57,12 +55,12 @@ class GetUpdates extends TelegramRequest
      * Please note that this parameter doesn't affect updates created before the call to the
      * getUpdates, so unwanted updates may be received for a short period of time.
      */
-    public $allowedUpdates;
+    public ?array $allowedUpdates = null;
 
     /**
      * @inheritDoc
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             ['offset', 'default'],
@@ -85,7 +83,7 @@ class GetUpdates extends TelegramRequest
     /**
      * @inheritDoc
      */
-    public function func() : string
+    public function func(): string
     {
         return 'getUpdates';
     }
@@ -95,7 +93,7 @@ class GetUpdates extends TelegramRequest
      * @return Update[]
      * @throws Exception
      */
-    public function send() : array
+    public function send(): array
     {
         // преобразуем массив объектов Update
         return array_map(static fn($data): Update => new Update([

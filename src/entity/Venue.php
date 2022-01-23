@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 18:42:53
+ * @license MIT
+ * @version 23.01.22 04:13:55
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram\entity;
 
@@ -19,23 +19,23 @@ use dicr\telegram\TelegramEntity;
  */
 class Venue extends TelegramEntity
 {
-    /** @var Location Venue location */
-    public $location;
+    /** Venue location */
+    public array|Location|null $location = null;
 
-    /** @var string Name of the venue */
-    public $title;
+    /** Name of the venue */
+    public ?string $title = null;
 
-    /** @var string Address of the venue */
-    public $address;
+    /** Address of the venue */
+    public ?string $address = null;
 
-    /** @var ?string Optional. Foursquare identifier of the venue */
-    public $foursquareId;
+    /** Optional. Foursquare identifier of the venue */
+    public ?string $foursquareId = null;
 
     /**
-     * @var ?string Optional. Foursquare type of the venue.
+     * Optional. Foursquare type of the venue.
      * (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
      */
-    public $foursquareType;
+    public ?string $foursquareType = null;
 
     /**
      * @inheritDoc

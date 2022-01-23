@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 23:20:17
+ * @license MIT
+ * @version 23.01.22 03:38:17
  */
 
 declare(strict_types = 1);
@@ -21,9 +21,9 @@ use dicr\telegram\TelegramEntity;
 class KeyboardButtonPollType extends TelegramEntity
 {
     /**
-     * @var ?string Optional. If quiz is passed, the user will be allowed to create only polls in the quiz mode.
+     * Optional. If quiz is passed, the user will be allowed to create only polls in the quiz mode.
      * If regular is passed, only regular polls will be allowed. Otherwise, the user will be allowed to
      * create a poll of any type.
      */
-    public $type;
+    public ?string $type = null;
 }

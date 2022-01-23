@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 17:28:16
+ * @license MIT
+ * @version 23.01.22 03:36:07
  */
 
 declare(strict_types = 1);
@@ -20,20 +20,20 @@ use dicr\telegram\TelegramEntity;
  */
 class InlineQuery extends TelegramEntity
 {
-    /** @var string Unique identifier for this query */
-    public $id;
+    /** Unique identifier for this query */
+    public ?string $id = null;
 
-    /** @var User Sender */
-    public $from;
+    /** Sender */
+    public array|User|null $from = null;
 
-    /** @var ?Location Optional. Sender location, only for bots that request user location */
-    public $location;
+    /** Optional. Sender location, only for bots that request user location */
+    public array|Location|null $location = null;
 
-    /** @var string Text of the query (up to 256 characters) */
-    public $query;
+    /** Text of the query (up to 256 characters) */
+    public ?string $query = null;
 
-    /** @var string Offset of the results to be returned, can be controlled by the bot */
-    public $offset;
+    /** Offset of the results to be returned, can be controlled by the bot */
+    public ?string $offset = null;
 
     /**
      * @inheritDoc

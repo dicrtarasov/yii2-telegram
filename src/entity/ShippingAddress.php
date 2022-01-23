@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 18:14:40
+ * @license MIT
+ * @version 23.01.22 04:04:35
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram\entity;
 
@@ -19,21 +19,21 @@ use dicr\telegram\TelegramEntity;
  */
 class ShippingAddress extends TelegramEntity
 {
-    /** @var string ISO 3166-1 alpha-2 country code */
-    public $countryCode;
+    /** ISO 3166-1 alpha-2 country code */
+    public ?string $countryCode = null;
 
-    /** @var string State, if applicable */
-    public $state;
+    /** State, if applicable */
+    public ?string $state = null;
 
-    /** @var string City */
-    public $city;
+    /** City */
+    public ?string $city = null;
 
-    /** @var string First line for the address */
-    public $streetLine1;
+    /** First line for the address */
+    public ?string $streetLine1 = null;
 
-    /** @var string Second line for the address */
-    public $streetLine2;
+    /** Second line for the address */
+    public ?string $streetLine2 = null;
 
-    /** @var string Address post code */
-    public $postCode;
+    /** Address post code */
+    public ?string $postCode = null;
 }

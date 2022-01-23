@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 16:44:18
+ * @license MIT
+ * @version 23.01.22 03:26:20
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram\entity;
 
@@ -17,9 +17,9 @@ use dicr\telegram\TelegramEntity;
  */
 class Dice extends TelegramEntity
 {
-    /** @var string Emoji on which the dice throw animation is based */
-    public $emoji;
+    /** Emoji on which the dice throw animation is based */
+    public ?string $emoji = null;
 
-    /** @var int Value of the dice, 1-6 for “🎲” and “🎯” base emoji, 1-5 for “🏀” base emoji */
-    public $value;
+    /** Value of the dice, 1-6 for “🎲” and “🎯” base emoji, 1-5 for “🏀” base emoji */
+    public ?int $value = null;
 }

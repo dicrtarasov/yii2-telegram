@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 18:46:04
+ * @license MIT
+ * @version 23.01.22 03:14:55
  */
 
 declare(strict_types = 1);
@@ -19,4 +19,5 @@ use dicr\telegram\TelegramEntity;
  */
 class CallbackGame extends TelegramEntity
 {
+    // noop
 }

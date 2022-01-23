@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 16:25:47
+ * @license MIT
+ * @version 23.01.22 04:15:09
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram\entity;
 
@@ -17,32 +17,32 @@ use dicr\telegram\TelegramEntity;
  */
 class Video extends TelegramEntity
 {
-    /** @var string Identifier for this file, which can be used to download or reuse the file */
-    public $fileId;
+    /** Identifier for this file, which can be used to download or reuse the file */
+    public ?string $fileId = null;
 
     /**
-     * @var string Unique identifier for this file, which is supposed to be the same over time and for
+     * Unique identifier for this file, which is supposed to be the same over time and for
      * different bots. Can't be used to download or reuse the file.
      */
-    public $fileUniqueId;
+    public ?string $fileUniqueId = null;
 
-    /** @var int Video width as defined by sender */
-    public $width;
+    /** Video width as defined by sender */
+    public ?int $width = null;
 
-    /** @var int Video height as defined by sender */
-    public $height;
+    /** Video height as defined by sender */
+    public ?int $height = null;
 
-    /** @var int Duration of the video in seconds as defined by sender */
-    public $duration;
+    /** Duration of the video in seconds as defined by sender */
+    public ?int $duration = null;
 
-    /** @var ?PhotoSize Optional. Video thumbnail */
-    public $thumb;
+    /** Optional. Video thumbnail */
+    public array|PhotoSize|null $thumb = null;
 
-    /** @var ?string Optional. Mime type of a file as defined by sender */
-    public $mimeType;
+    /** Optional. Mime type of a file as defined by sender */
+    public ?string $mimeType = null;
 
-    /** @var ?int Optional. File size */
-    public $fileSize;
+    /** Optional. File size */
+    public ?int $fileSize = null;
 
     /**
      * @inheritDoc

@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 18:06:42
+ * @license MIT
+ * @version 23.01.22 03:59:36
  */
 
 declare(strict_types = 1);
@@ -19,64 +19,58 @@ use dicr\telegram\TelegramEntity;
  */
 class Poll extends TelegramEntity
 {
-    /** @var string */
     public const TYPE_REGULAR = 'regular';
 
-    /** @var string */
     public const TYPE_QUIZ = 'quiz';
 
-    /** @var string Unique poll identifier */
-    public $id;
+    /** Unique poll identifier */
+    public ?string $id = null;
 
-    /** @var string Poll question, 1-255 characters */
-    public $question;
+    /** Poll question, 1-255 characters */
+    public ?string $question = null;
 
-    /** @var PollOption[] List of poll options */
-    public $options;
+    /** @var PollOption[]|null List of poll options */
+    public ?array $options = null;
 
-    /** @var int Total number of users that voted in the poll */
-    public $totalVoterCount;
+    /** Total number of users that voted in the poll */
+    public ?int $totalVoterCount = null;
 
-    /** @var bool True, if the poll is closed */
-    public $isClosed;
+    /** True, if the poll is closed */
+    public ?bool $isClosed = null;
 
-    /** @var bool True, if the poll is anonymous */
-    public $isAnonymous;
+    /** True, if the poll is anonymous */
+    public ?bool $isAnonymous = null;
 
-    /** @var string Poll type, currently can be “regular” or “quiz” */
-    public $type;
+    /** Poll type, currently can be “regular” or “quiz” */
+    public ?string $type = null;
 
-    /** @var bool True, if the poll allows multiple answers */
-    public $allowsMultipleAnswers;
+    /** True, if the poll allows multiple answers */
+    public ?bool $allowsMultipleAnswers = null;
 
     /**
-     * @var ?int Optional. 0-based identifier of the correct answer option. Available only for polls
+     * Optional. 0-based identifier of the correct answer option. Available only for polls
      * in the quiz mode, which are closed, or was sent (not forwarded) by the bot or to the private
      * chat with the bot.
      */
-    public $correctOptionId;
+    public ?int $correctOptionId = null;
 
     /**
-     * @var ?string Optional. Text that is shown when a user chooses an incorrect answer or taps on the
+     * Optional. Text that is shown when a user chooses an incorrect answer or taps on the
      * lamp icon in a quiz-style poll, 0-200 characters
      */
-    public $explanation;
+    public ?string $explanation = null;
 
     /**
-     * @var ?MessageEntity[] Optional. Special entities like usernames, URLs, bot commands, etc.
+     * @var MessageEntity[]|null Optional. Special entities like usernames, URLs, bot commands, etc.
      * that appear in the explanation
      */
-    public $explanationEntities;
+    public ?array $explanationEntities = null;
 
-    /**
-     * @var ?int Optional. Amount of time in seconds the poll will be active after creation
-     */
-    public $openPeriod;
+    /** Optional. Amount of time in seconds the poll will be active after creation */
+    public ?int $openPeriod = null;
 
-    /**
-     * @var ?int Optional. Point in time (Unix timestamp) when the poll will be automatically closed.
-     */
-    public $closeDate;
+    /** Optional. Point in time (Unix timestamp) when the poll will be automatically closed. */
+    public ?int $closeDate;
 
     /**
      * @inheritDoc

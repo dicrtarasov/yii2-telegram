@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 17:36:16
+ * @license MIT
+ * @version 23.01.22 03:38:41
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram\entity;
 
@@ -19,9 +19,9 @@ use dicr\telegram\TelegramEntity;
  */
 class Location extends TelegramEntity
 {
-    /** @var float Longitude as defined by sender */
-    public $longitude;
+    /** Longitude as defined by sender */
+    public ?float $longitude = null;
 
-    /** @var float Latitude as defined by sender */
-    public $latitude;
+    /** Latitude as defined by sender */
+    public ?float $latitude = null;
 }

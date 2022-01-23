@@ -1,18 +1,17 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license MIT
- * @version 05.11.20 04:56:37
+ * @version 23.01.22 03:09:17
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 namespace dicr\telegram\request;
 
 use dicr\json\EntityValidator;
 use dicr\telegram\entity\BotCommand;
 use dicr\telegram\TelegramRequest;
-use yii\base\Exception;
 
 /**
  * Use this method to change the list of the bot's commands. Returns True on success.
@@ -26,12 +25,12 @@ class SetMyCommands extends TelegramRequest
      * A JSON-serialized list of bot commands to be set as the list of the bot's commands.
      * At most 100 commands can be specified.
      */
-    public $commands;
+    public array $commands = [];
 
     /**
      * @inheritDoc
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             ['commands', 'required'],
@@ -42,17 +41,8 @@ class SetMyCommands extends TelegramRequest
     /**
      * @inheritDoc
      */
-    public function func() : string
+    public function func(): string
     {
         return 'setMyCommands';
-    }
-
-    /**
-     * @inheritDoc
-     * @throws Exception
-     */
-    public function send() : void
-    {
-        parent::send();
     }
 }

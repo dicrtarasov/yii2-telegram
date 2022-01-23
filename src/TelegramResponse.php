@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 22:56:55
+ * @license MIT
+ * @version 23.01.22 03:04:01
  */
 
 declare(strict_types = 1);
@@ -27,34 +27,33 @@ use dicr\telegram\entity\ResponseParameters;
  */
 class TelegramResponse extends TelegramEntity
 {
-    /** @var bool результат выполнения запроса */
-    public $ok;
+    /** результат выполнения запроса */
+    public string|int|bool|null $ok = null;
 
     /**
-     * @var ?array результат
+     * результат
      * If 'ok' equals true, the request was successful and the result of the query can be found
      * in the 'result' field
      */
-    public $result;
+    public ?string $result = null;
 
     /**
-     * @var ?string текст ошибки.
+     * текст ошибки.
      * In case of an unsuccessful request, 'ok' equals false and the error is explained in the 'description'.
      */
-    public $description;
+    public ?string $description = null;
 
     /**
-     * @var ?int
      * Integer 'error_code' field is also returned, but its contents are subject to change in the future.
      */
-    public $errorCode;
+    public int|null $errorCode = null;
 
     /**
-     * @var ?ResponseParameters параметры повтора запроса в случае ошибки.
+     * параметры повтора запроса в случае ошибки.
      * Some errors may also have an optional field 'parameters' of the type ResponseParameters, which can help
      * to automatically handle the error.
      */
-    public $parameters;
+    public array|ResponseParameters|null $parameters = null;
 
     /**
      * @inheritDoc

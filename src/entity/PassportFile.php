@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 17:41:49
+ * @license MIT
+ * @version 23.01.22 03:57:16
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram\entity;
 
@@ -20,18 +20,18 @@ use dicr\telegram\TelegramEntity;
  */
 class PassportFile extends TelegramEntity
 {
-    /** @var string Identifier for this file, which can be used to download or reuse the file */
-    public $fileId;
+    /** Identifier for this file, which can be used to download or reuse the file */
+    public ?string $fileId = null;
 
     /**
-     * @var string Unique identifier for this file, which is supposed to be the same over time and for different bots.
+     * Unique identifier for this file, which is supposed to be the same over time and for different bots.
      * Can't be used to download or reuse the file.
      */
-    public $fileUniqueId;
+    public ?string $fileUniqueId = null;
 
-    /** @var int File size */
-    public $fileSize;
+    /** File size */
+    public ?int $fileSize = null;
 
-    /** @var int Unix time when the file was uploaded */
-    public $fileDate;
+    /** Unix time when the file was uploaded */
+    public ?int $fileDate = null;
 }

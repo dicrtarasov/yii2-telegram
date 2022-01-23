@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 18:09:23
+ * @license MIT
+ * @version 23.01.22 04:00:37
  */
 
 declare(strict_types = 1);
@@ -19,9 +19,9 @@ use dicr\telegram\TelegramEntity;
  */
 class PollOption extends TelegramEntity
 {
-    /** @var string Option text, 1-100 characters */
-    public $text;
+    /** Option text, 1-100 characters */
+    public ?string $text = null;
 
-    /** @var int Number of users that voted for this option */
-    public $voterCount;
+    /** Number of users that voted for this option */
+    public ?int $voterCount = null;
 }

@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2021 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license MIT
- * @version 05.10.21 00:49:53
+ * @version 23.01.22 02:57:12
  */
 
 declare(strict_types = 1);
@@ -34,7 +34,6 @@ class CallbackController extends Controller
     /**
      * Индекс.
      *
-     * @return Response
      * @throws BadRequestHttpException
      */
     public function actionIndex(): Response

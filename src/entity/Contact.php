@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 16:43:21
+ * @license MIT
+ * @version 23.01.22 03:25:55
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram\entity;
 
@@ -17,18 +17,18 @@ use dicr\telegram\TelegramEntity;
  */
 class Contact extends TelegramEntity
 {
-    /** @var string Contact's phone number */
-    public $phoneNumber;
+    /** Contact's phone number */
+    public ?string $phoneNumber = null;
 
-    /** @var string Contact's first name */
-    public $firstName;
+    /** Contact's first name */
+    public ?string $firstName = null;
 
-    /** @var ?string Optional. Contact's last name */
-    public $lastName;
+    /** Optional. Contact's last name */
+    public ?string $lastName = null;
 
-    /** @var ?int Optional. Contact's user identifier in Telegram */
-    public $userId;
+    /** Optional. Contact's user identifier in Telegram */
+    public ?int $userId = null;
 
-    /** @var ?string Optional. Additional data about the contact in the form of a vCard */
-    public $vcard;
+    /** Optional. Additional data about the contact in the form of a vCard */
+    public ?string $vcard = null;
 }

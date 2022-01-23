@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 15:51:51
+ * @license MIT
+ * @version 23.01.22 03:51:45
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram\entity;
 
@@ -19,272 +19,207 @@ use dicr\telegram\TelegramEntity;
  */
 class Message extends TelegramEntity
 {
-    /** @var int Unique message identifier inside this chat */
-    public $messageId;
+    /** Unique message identifier inside this chat */
+    public ?int $messageId = null;
+
+    /** Опционально. Отправитель. Может быть пустым в каналах. */
+    public array|User|null $from = null;
+
+    /** Date the message was sent in Unix time */
+    public ?int $date = null;
+
+    /** Conversation the message belongs to */
+    public array|Chat|null $chat = null;
+
+    /** Опционально. Для пересланных сообщений: отправитель оригинального сообщения. */
+    public array|User|null $forwardFrom = null;
+
+    /** Optional. For messages forwarded from channels, information about the original channel */
+    public array|Chat|null $forwardFromChat = null;
+
+    /** Optional. For messages forwarded from channels, identifier of the original message in the channel */
+    public ?int $forwardFromMessageId = null;
+
+    /** Optional. For messages forwarded from channels, signature of the post author if present */
+    public ?string $forwardSignature = null;
 
     /**
-     * @var ?User
-     * Опционально. Отправитель. Может быть пустым в каналах.
-     */
-    public $from;
-
-    /** @var int Date the message was sent in Unix time */
-    public $date;
-
-    /** @var Chat Conversation the message belongs to */
-    public $chat;
-
-    /**
-     * @var ?User
-     * Опционально. Для пересланных сообщений: отправитель оригинального сообщения.
-     */
-    public $forwardFrom;
-
-    /**
-     * @var ?Chat Optional. For messages forwarded from channels, information about the original channel
-     */
-    public $forwardFromChat;
-
-    /**
-     * @var ?int Optional. For messages forwarded from channels, identifier of the original message in the channel
-     */
-    public $forwardFromMessageId;
-
-    /**
-     * @var ?string Optional. For messages forwarded from channels, signature of the post author if present
-     */
-    public $forwardSignature;
-
-    /**
-     * @var ?string Optional. Sender's name for messages forwarded from users who disallow adding a link to their
+     * Optional. Sender's name for messages forwarded from users who disallow adding a link to their
      * account in forwarded messages
      */
-    public $forwardSenderName;
+    public ?string $forwardSenderName = null;
+
+    /** Опционально. Для пересланных сообщений: дата отправки оригинального сообщения. */
+    public ?int $forwardDate = null;
 
     /**
-     * @var ?int
-     * Опционально. Для пересланных сообщений: дата отправки оригинального сообщения.
-     */
-    public $forwardDate;
-
-    /**
-     * @var ?Message
      * Опционально. Для ответов: оригинальное сообщение.
      * Note that the Message object in this field will not contain further reply_to_message
      * fields even if it itself is a reply.
      */
-    public $replyToMessage;
+    public array|Message|null $replyToMessage = null;
+
+    /** Optional. Bot through which the message was sent */
+    public array|User|null $viaBot = null;
+
+    /** Optional. Date the message was last edited in Unix time */
+    public ?int $editDate = null;
+
+    /** Optional. The unique identifier of a media message group this message belongs to */
+    public ?string $mediaGroupId = null;
+
+    /** Optional. Signature of the post author for messages in channels */
+    public ?string $authorSignature = null;
+
+    /** Optional. For text messages, the actual UTF-8 text of the message, 0-4096 characters */
+    public ?string $text = null;
 
     /**
-     * @var ?User Optional. Bot through which the message was sent
-     */
-    public $viaBot;
-
-    /**
-     * @var ?int Optional. Date the message was last edited in Unix time
-     */
-    public $editDate;
-
-    /**
-     * @var ?string Optional. The unique identifier of a media message group this message belongs to
-     */
-    public $mediaGroupId;
-
-    /**
-     * @var ?string Optional. Signature of the post author for messages in channels
-     */
-    public $authorSignature;
-
-    /**
-     * @var ?string Optional. For text messages, the actual UTF-8 text of the message, 0-4096 characters
-     */
-    public $text;
-
-    /**
-     * @var ?MessageEntity[]
+     * @var MessageEntity[]|null
      * For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
      */
-    public $entities;
+    public ?array $entities = null;
 
     /**
-     * @var ?Animation Optional. Message is an animation, information about the animation. For backward compatibility,
+     * Optional. Message is an animation, information about the animation. For backward compatibility,
      * when this field is set, the document field will also be set
      */
-    public $animation;
+    public array|Animation|null $animation = null;
+
+    /** Optional. Message is an audio file, information about the file */
+    public array|Audio|null $audio = null;
+
+    /** Optional. Message is a general file, information about the file */
+    public array|Document|null $document = null;
+
+    /** @var PhotoSize[]|null Optional. Message is a photo, available sizes of the photo */
+    public ?array $photo = null;
+
+    /** Optional. Message is a sticker, information about the sticker */
+    public array|Sticker|null $sticker = null;
+
+    /** Optional. Message is a video, information about the video */
+    public array|Video|null $video = null;
+
+    /** Optional. Message is a video note, information about the video message */
+    public array|VideoNote|null $videoNote = null;
+
+    /** Optional. Message is a voice message, information about the file */
+    public array|Voice|null $voice = null;
+
+    /** Optional. Caption for the animation, audio, document, photo, video or voice, 0-1024 characters */
+    public ?string $caption = null;
 
     /**
-     * @var ?Audio Optional. Message is an audio file, information about the file
-     */
-    public $audio;
-
-    /**
-     * @var ?Document Optional. Message is a general file, information about the file
-     */
-    public $document;
-
-    /**
-     * @var ?PhotoSize[] Optional. Message is a photo, available sizes of the photo
-     */
-    public $photo;
-
-    /**
-     * @var ?Sticker Optional. Message is a sticker, information about the sticker
-     */
-    public $sticker;
-
-    /**
-     * @var ?Video Optional. Message is a video, information about the video
-     */
-    public $video;
-
-    /**
-     * @var ?VideoNote Optional. Message is a video note, information about the video message
-     */
-    public $videoNote;
-
-    /**
-     * @var ?Voice Optional. Message is a voice message, information about the file
-     */
-    public $voice;
-
-    /**
-     * @var ?string Optional. Caption for the animation, audio, document, photo, video or voice, 0-1024 characters
-     */
-    public $caption;
-
-    /**
-     * @var ?MessageEntity[] Optional. For messages with a caption, special entities like usernames, URLs,
+     * @var MessageEntity[]|null Optional. For messages with a caption, special entities like usernames, URLs,
      * bot commands, etc. that appear in the caption
      */
-    public $captionEntities;
+    public ?array $captionEntities = null;
+
+    /** Опционально. Информация об отправленном контакте. */
+    public array|Contact|null $contact = null;
+
+    /** Optional. Message is a dice with random value from 1 to 6 */
+    public array|Dice|null $dice = null;
+
+    /** Optional. Message is a game, information about the game. */
+    public array|Game|null $game = null;
+
+    /** Optional. Message is a native poll, information about the poll */
+    public array|Poll|null $poll = null;
 
     /**
-     * @var ?Contact
-     * Опционально. Информация об отправленном контакте.
-     */
-    public $contact;
-
-    /**
-     * @var ?Dice Optional. Message is a dice with random value from 1 to 6
-     */
-    public $dice;
-
-    /**
-     * @var ?Game Optional. Message is a game, information about the game.
-     */
-    public $game;
-
-    /** @var ?Poll Optional. Message is a native poll, information about the poll */
-    public $poll;
-
-    /**
-     * @var ?Venue Optional. Message is a venue, information about the venue. For backward compatibility,
+     * Optional. Message is a venue, information about the venue. For backward compatibility,
      * when this field is set, the location field will also be set
      */
-    public $venue;
+    public array|Venue|null $venue = null;
+
+    /** Optional. Message is a shared location, information about the location */
+    public array|Location|null $location = null;
 
     /**
-     * @var ?Location Optional. Message is a shared location, information about the location
-     */
-    public $location;
-
-    /**
-     * @var ?User Optional. New members that were added to the group or supergroup and information about them
+     * Optional. New members that were added to the group or supergroup and information about them
      * (the bot itself may be one of these members)
      */
-    public $newChatMember;
+    public array|User|null $newChatMember = null;
 
     /**
-     * @var ?User Optional. A member was removed from the group, information about them
+     * Optional. A member was removed from the group, information about them
      * (this member may be the bot itself)
      */
-    public $leftChatMember;
+    public array|User|null $leftChatMember = null;
+
+    /** Optional. A chat title was changed to this value */
+    public ?string $newChatTitle = null;
+
+    /** @var PhotoSize[]|null Optional. A chat photo was change to this value */
+    public ?array $newChatPhoto = null;
+
+    /** Optional. Service message: the chat photo was deleted */
+    public ?bool $deleteChatPhoto = null;
+
+    /** Optional. Service message: the group has been created */
+    public ?bool $groupChatCreated = null;
 
     /**
-     * @var ?string Optional. A chat title was changed to this value
-     */
-    public $newChatTitle;
-
-    /**
-     * @var ?PhotoSize[] Optional. A chat photo was change to this value
-     */
-    public $newChatPhoto;
-
-    /**
-     * @var ?true Optional. Service message: the chat photo was deleted
-     */
-    public $deleteChatPhoto;
-
-    /**
-     * @var ?true Optional. Service message: the group has been created
-     */
-    public $groupChatCreated;
-
-    /**
-     * @var ?true Optional. Service message: the supergroup has been created.
+     * Optional. Service message: the supergroup has been created.
      * This field can't be received in a message coming through updates, because
      * bot can't be a member of a supergroup when it is created. It can only be
      * found in reply_to_message if someone replies to a very first message in a
      * directly created supergroup.
      */
-    public $supergroupChatCreated;
+    public ?bool $supergroupChatCreated = null;
 
     /**
-     * @var ?true Optional. Service message: the channel has been created.
+     * Optional. Service message: the channel has been created.
      * This field can't be received in a message coming through updates, because bot
      * can't be a member of a channel when it is created. It can only be found in
      * reply_to_message if someone replies to a very first message in a channel.
      */
-    public $channelChatCreated;
+    public ?bool $channelChatCreated = null;
 
     /**
-     * @var ?int Optional. The group has been migrated to a supergroup with the specified identifier.
+     * Optional. The group has been migrated to a supergroup with the specified identifier.
      * This number may be greater than 32 bits and some programming languages may have
      * difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit
      * integer or double-precision float type are safe for storing this identifier.
      */
-    public $migrateToChatId;
+    public ?int $migrateToChatId = null;
 
     /**
-     * @var ?int Optional. The supergroup has been migrated from a group with the specified identifier.
+     * Optional. The supergroup has been migrated from a group with the specified identifier.
      * This number may be greater than 32 bits and some programming languages may have difficulty/silent
      * defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or
      * double-precision float type are safe for storing this identifier.
      */
-    public $migrateFromChatId;
+    public ?int $migrateFromChatId = null;
 
     /**
-     * @var ?Message Optional. Specified message was pinned. Note that the Message object in this field will
+     * Optional. Specified message was pinned. Note that the Message object in this field will
      * not contain further reply_to_message fields even if it is itself a reply.
      */
-    public $pinnedMessage;
+    public array|Message|null $pinnedMessage = null;
+
+    /** Optional. Message is an invoice for a payment, information about the invoice. */
+    public array|Invoice|null $invoice = null;
 
     /**
-     * @var ?Invoice Optional. Message is an invoice for a payment, information about the invoice.
-     */
-    public $invoice;
-
-    /**
-     * @var ?SuccessfulPayment Optional. Message is a service message about a successful payment,
+     * Optional. Message is a service message about a successful payment,
      * information about the payment.
      */
-    public $successfulPayment;
+    public array|SuccessfulPayment|null $successfulPayment = null;
+
+    /** Optional. The domain name of the website on which the user has logged in. */
+    public ?string $connectedWebsite = null;
+
+    /** Optional. Telegram Passport data */
+    public array|PassportData|null $passportData = null;
 
     /**
-     * @var ?string Optional. The domain name of the website on which the user has logged in.
-     */
-    public $connectedWebsite;
-
-    /**
-     * @var ?PassportData Optional. Telegram Passport data
-     */
-    public $passportData;
-
-    /**
-     * @var ?InlineKeyboardMarkup Optional. Inline keyboard attached to the message.
+     * Optional. Inline keyboard attached to the message.
      * login_url buttons are represented as ordinary url buttons.
      */
-    public $replyMarkup;
+    public array|InlineKeyboardMarkup|null $replyMarkup = null;
 
     /**
      * @inheritDoc

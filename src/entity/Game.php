@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 17:04:31
+ * @license MIT
+ * @version 23.01.22 03:33:06
  */
 
 declare(strict_types = 1);
@@ -20,32 +20,30 @@ use dicr\telegram\TelegramEntity;
  */
 class Game extends TelegramEntity
 {
-    /** @var string Title of the game */
-    public $title;
+    /** Title of the game */
+    public ?string $title = null;
 
-    /** @var string Description of the game */
-    public $description;
+    /** Description of the game */
+    public ?string $description = null;
 
-    /** @var PhotoSize[] Photo that will be displayed in the game message in chats. */
-    public $photo;
+    /** @var PhotoSize[]|null Photo that will be displayed in the game message in chats. */
+    public ?array $photo = null;
 
     /**
-     * @var ?string Optional. Brief description of the game or high scores included in the game message.
+     * Optional. Brief description of the game or high scores included in the game message.
      * Can be automatically edited to include current high scores for the game when the bot calls setGameScore,
      * or manually edited using editMessageText. 0-4096 characters.
      */
-    public $text;
+    public ?string $text = null;
 
     /**
-     * @var ?MessageEntity[] Optional. Special entities that appear in text, such as usernames, URLs,
+     * @var MessageEntity[]|null Optional. Special entities that appear in text, such as usernames, URLs,
      * bot commands, etc.
      */
-    public $textEntities;
+    public ?array $textEntities = null;
 
-    /**
-     * @var ?Animation Optional. Animation that will be displayed in the game message in chats. Upload via BotFather
-     */
-    public $animation;
+    /** Optional. Animation that will be displayed in the game message in chats. Upload via BotFather */
+    public array|Animation|null $animation = null;
 
     /**
      * @inheritDoc

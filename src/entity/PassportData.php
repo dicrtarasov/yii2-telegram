@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 17:57:30
+ * @license MIT
+ * @version 23.01.22 03:55:49
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram\entity;
 
@@ -20,15 +20,13 @@ use dicr\telegram\TelegramEntity;
 class PassportData extends TelegramEntity
 {
     /**
-     * @var EncryptedPassportElement[] Array with information about documents and other Telegram Passport
+     * @var EncryptedPassportElement[]|null Array with information about documents and other Telegram Passport
      * elements that was shared with the bot
      */
-    public $data;
+    public ?array $data = null;
 
-    /**
-     * @var EncryptedCredentials Encrypted credentials required to decrypt the data
-     */
-    public $credentials;
+    /** Encrypted credentials required to decrypt the data */
+    public array|EncryptedCredentials|null $credentials = null;
 
     /**
      * @inheritDoc

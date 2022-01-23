@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 17:56:06
+ * @license MIT
+ * @version 23.01.22 03:28:19
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram\entity;
 
@@ -21,18 +21,14 @@ use dicr\telegram\TelegramEntity;
 class EncryptedCredentials extends TelegramEntity
 {
     /**
-     * @var string Base64-encoded encrypted JSON-serialized data with unique user's payload, data hashes
+     * Base64-encoded encrypted JSON-serialized data with unique user's payload, data hashes
      * and secrets required for EncryptedPassportElement decryption and authentication
      */
-    public $data;
+    public ?string $data = null;
 
-    /**
-     * @var string Base64-encoded data hash for data authentication
-     */
-    public $hash;
+    /** Base64-encoded data hash for data authentication */
+    public ?string $hash = null;
 
-    /**
-     * @var string Base64-encoded secret, encrypted with the bot's public RSA key, required for data decryption
-     */
-    public $secret;
+    /** Base64-encoded secret, encrypted with the bot's public RSA key, required for data decryption */
+    public ?string $secret = null;
 }

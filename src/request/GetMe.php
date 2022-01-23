@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 26.08.20 00:23:47
+ * @license MIT
+ * @version 23.01.22 03:03:03
  */
 
 declare(strict_types = 1);
@@ -31,7 +31,6 @@ class GetMe extends TelegramRequest
 
     /**
      * @inheritDoc
-     * @return User
      * @throws Exception
      */
     public function send(): User

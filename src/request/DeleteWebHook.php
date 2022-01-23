@@ -1,16 +1,15 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 26.08.20 00:23:47
+ * @license MIT
+ * @version 23.01.22 03:02:53
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 namespace dicr\telegram\request;
 
 use dicr\telegram\TelegramRequest;
-use yii\base\Exception;
 
 /**
  * Use this method to remove webhook integration if you decide to switch back to getUpdates.
@@ -26,14 +25,5 @@ class DeleteWebHook extends TelegramRequest
     public function func(): string
     {
         return 'deleteWebhook';
-    }
-
-    /**
-     * @inheritDoc
-     * @throws Exception
-     */
-    public function send(): void
-    {
-        parent::send();
     }
 }

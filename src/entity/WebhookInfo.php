@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 23:56:35
+ * @license MIT
+ * @version 23.01.22 04:18:08
  */
 
 declare(strict_types = 1);
@@ -19,44 +19,33 @@ use dicr\telegram\TelegramEntity;
  */
 class WebhookInfo extends TelegramEntity
 {
-    /**
-     * @var ?string
-     * Webhook URL, may be empty if webhook is not set up.
-     */
-    public $url;
+    /** Webhook URL, may be empty if webhook is not set up. */
+    public ?string $url = null;
+
+    /** True, if a custom certificate was provided for webhook certificate checks */
+    public ?bool $hasCustomCertificate = null;
+
+    /** Number of updates awaiting delivery */
+    public ?int $pendingUpdateCount = null;
 
     /**
-     * @var bool
-     * True, if a custom certificate was provided for webhook certificate checks
-     */
-    public $hasCustomCertificate;
-
-    /** @var int Number of updates awaiting delivery */
-    public $pendingUpdateCount;
-
-    /**
-     * @var ?int
      * Optional. Unix time for the most recent error that happened when trying to
      * deliver an update via webhook.
      */
-    public $lastErrorDate;
+    public ?int $lastErrorDate = null;
 
     /**
-     * @var ?string
      * Optional. Error message in human-readable format for the most recent error that
      * happened when trying to deliver an update via webhook.
      */
-    public $lastErrorMessage;
+    public ?string $lastErrorMessage = null;
+
+    /** Optional. Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery */
+    public ?int $maxConnections = null;
 
     /**
-     * @var ?int
-     * Optional. Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
-     */
-    public $maxConnections;
-
-    /**
-     * @var ?string[]
+     * @var string[]|null
      * Optional. A list of update types the bot is subscribed to. Defaults to all update types.
      */
-    public $allowedUpdates;
+    public ?array $allowedUpdates = null;
 }

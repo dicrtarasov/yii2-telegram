@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2021 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license MIT
- * @version 03.02.21 21:08:44
+ * @version 23.01.22 02:59:49
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 namespace dicr\telegram;
 
 use Yii;
@@ -21,26 +21,18 @@ use function sleep;
  */
 abstract class TelegramRequest extends TelegramEntity
 {
-    /** @var TelegramModule */
-    protected $module;
-
     /**
      * Конструктор.
-     *
-     * @param TelegramModule $module
-     * @param array $config
      */
-    public function __construct(TelegramModule $module, array $config = [])
-    {
-        $this->module = $module;
-
+    public function __construct(
+        protected TelegramModule $module,
+        array $config = []
+    ) {
         parent::__construct($config);
     }
 
     /**
      * Возвращает функцию API
-     *
-     * @return string
      */
     abstract public function func(): string;
 
@@ -49,10 +41,8 @@ abstract class TelegramRequest extends TelegramEntity
      *
      * @return array ответ (переопределяется в наследуемом классе)
      * @throws Exception
-     * @noinspection PhpMissingReturnTypeInspection
-     * @noinspection ReturnTypeCanBeDeclaredInspection
      */
-    public function send()
+    public function send(): mixed
     {
         // фильтруем данные
         $data = array_filter(
@@ -72,7 +62,7 @@ abstract class TelegramRequest extends TelegramEntity
         $res = $req->send();
         Yii::debug('Ответ: ' . $res->toString(), __METHOD__);
 
-        if (! $res->isOk) {
+        if (!$res->isOk) {
             throw new Exception('HTTP-error: ' . $res->statusCode);
         }
 
@@ -87,7 +77,7 @@ abstract class TelegramRequest extends TelegramEntity
             // если запрос был отфильтрован из-за flood-фильтра, то повторяем запрос
             $retryAfter = (int)$tgResponse->parameters->retryAfter;
 
-            if (! empty($retryAfter)) {
+            if (!empty($retryAfter)) {
                 Yii::warning(
                     'Сработал flood-фильтр, ожидаем ' . $retryAfter . ' секунд ...', __METHOD__
                 );

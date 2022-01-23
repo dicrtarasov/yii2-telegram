@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 15:54:55
+ * @license MIT
+ * @version 23.01.22 04:13:07
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 namespace dicr\telegram\entity;
 
 use dicr\telegram\TelegramEntity;
@@ -19,32 +19,32 @@ use dicr\telegram\TelegramEntity;
  */
 class User extends TelegramEntity
 {
-    /** @var int Unique identifier for this user or bot */
-    public $id;
+    /** Unique identifier for this user or bot */
+    public ?int $id = null;
 
-    /** @var bool True, if this user is a bot */
-    public $isBot;
+    /** True, if this user is a bot */
+    public ?bool $isBot = null;
 
-    /** @var string User‘s or bot’s first name */
-    public $firstName;
+    /** User‘s or bot’s first name */
+    public ?string $firstName = null;
 
-    /** @var ?string User‘s or bot’s last name */
-    public $lastName;
+    /** User‘s or bot’s last name */
+    public ?string $lastName = null;
 
-    /** @var ?string User‘s or bot’s username */
-    public $userName;
+    /** User‘s or bot’s username */
+    public ?string $userName = null;
 
-    /** @var ?string IETF language tag of the user's language */
-    public $languageCode;
+    /** IETF language tag of the user's language */
+    public ?string $languageCode = null;
 
-    /** @var ?bool True, if the bot can be invited to groups. Returned only in getMe. */
-    public $canJoinGroups;
+    /** True, if the bot can be invited to groups. Returned only in getMe. */
+    public ?bool $canJoinGroups = null;
 
-    /** @var ?bool True, if privacy mode is disabled for the bot. Returned only in getMe. */
-    public $canReadAllGroupMessages;
+    /** True, if privacy mode is disabled for the bot. Returned only in getMe. */
+    public ?bool $canReadAllGroupMessages = null;
 
-    /** @var ?bool True, if the bot supports inline queries. Returned only in getMe. */
-    public $supportsInlineQueries;
+    /** True, if the bot supports inline queries. Returned only in getMe. */
+    public ?bool $supportsInlineQueries = null;
 
     /**
      * @inheritDoc

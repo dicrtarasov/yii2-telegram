@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license MIT
- * @version 05.11.20 04:45:49
+ * @version 23.01.22 03:14:43
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram\entity;
 
@@ -21,29 +21,23 @@ use function preg_match;
  */
 class BotCommand extends TelegramEntity
 {
-    /**
-     * @var string
-     * Text of the command, 1-32 characters. Can contain only lowercase English letters, digits and underscores.
-     */
-    public $command;
+    /** Text of the command, 1-32 characters. Can contain only lowercase English letters, digits and underscores. */
+    public ?string $command = null;
 
-    /**
-     * @var string
-     * Description of the command, 3-256 characters.
-     */
-    public $description;
+    /** Description of the command, 3-256 characters. */
+    public ?string $description = null;
 
     /**
      * @inheritDoc
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             ['command', 'trim'],
             ['command', 'required'],
             ['command', 'string', 'max' => 32],
             ['command', function (string $attribute) {
-                if (! preg_match('~^[a-z0-9_]+$~', $this->command)) {
+                if (!preg_match('~^[a-z0-9_]+$~', $this->command)) {
                     $this->addError($attribute,
                         'Команда может содержать только маленькие латинские буквы, цифры и подчеркивание'
                     );
@@ -56,10 +50,7 @@ class BotCommand extends TelegramEntity
         ];
     }
 
-    /**
-     * @return string
-     */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->command . ' - ' . $this->description;
     }

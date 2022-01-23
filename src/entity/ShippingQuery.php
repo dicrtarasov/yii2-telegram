@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 18:21:08
+ * @license MIT
+ * @version 23.01.22 04:05:17
  */
 
 declare(strict_types = 1);
@@ -19,17 +19,17 @@ use dicr\telegram\TelegramEntity;
  */
 class ShippingQuery extends TelegramEntity
 {
-    /** @var string Unique query identifier */
-    public $id;
+    /** Unique query identifier */
+    public ?string $id = null;
 
-    /** @var User User who sent the query */
-    public $from;
+    /** User who sent the query */
+    public array|User|null $from = null;
 
-    /** @var string Bot specified invoice payload */
-    public $invoicePayload;
+    /** Bot specified invoice payload */
+    public ?string $invoicePayload = null;
 
-    /** @var ?ShippingAddress User specified shipping address */
-    public $shippingAddress;
+    /** User specified shipping address */
+    public array|ShippingAddress|null $shippingAddress = null;
 
     /**
      * @inheritDoc

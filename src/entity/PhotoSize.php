@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 16:11:12
+ * @license MIT
+ * @version 23.01.22 03:57:17
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram\entity;
 
@@ -17,21 +17,21 @@ use dicr\telegram\TelegramEntity;
  */
 class PhotoSize extends TelegramEntity
 {
-    /** @var string Identifier for this file, which can be used to download or reuse the file */
-    public $fileId;
+    /** Identifier for this file, which can be used to download or reuse the file */
+    public ?string $fileId = null;
 
     /**
-     * @var string Unique identifier for this file, which is supposed to be the same over time and for
+     * Unique identifier for this file, which is supposed to be the same over time and for
      * different bots. Can't be used to download or reuse the file.
      */
-    public $fileUniqueId;
+    public ?string $fileUniqueId = null;
 
-    /** @var int Photo width */
-    public $width;
+    /** Photo width */
+    public ?int $width = null;
 
-    /** @var int Photo height */
-    public $height;
+    /** Photo height */
+    public ?int $height = null;
 
-    /** @var ?int Optional. File size */
-    public $fileSize;
+    /** Optional. File size */
+    public ?int $fileSize = null;
 }

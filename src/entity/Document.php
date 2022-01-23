@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 16:22:37
+ * @license MIT
+ * @version 23.01.22 03:27:36
  */
 
 declare(strict_types = 1);
@@ -17,26 +17,26 @@ use dicr\telegram\TelegramEntity;
  */
 class Document extends TelegramEntity
 {
-    /** @var string Identifier for this file, which can be used to download or reuse the file */
-    public $fileId;
+    /** Identifier for this file, which can be used to download or reuse the file */
+    public ?string $fileId = null;
 
     /**
-     * @var string Unique identifier for this file, which is supposed to be the same over time and for
+     * Unique identifier for this file, which is supposed to be the same over time and for
      * different bots. Can't be used to download or reuse the file.
      */
-    public $fileUniqueId;
+    public ?string $fileUniqueId = null;
 
-    /** @var ?PhotoSize Optional. Document thumbnail as defined by sender */
-    public $thumb;
+    /** Optional. Document thumbnail as defined by sender */
+    public array|PhotoSize|null $thumb = null;
 
-    /** @var ?string Optional. Original filename as defined by sender */
-    public $fileName;
+    /** Optional. Original filename as defined by sender */
+    public ?string $fileName = null;
 
-    /** @var ?string Optional. MIME type of the file as defined by sender */
-    public $mimeType;
+    /** Optional. MIME type of the file as defined by sender */
+    public ?string $mimeType = null;
 
-    /** @var ?int Optional. File size */
-    public $fileSize;
+    /** Optional. File size */
+    public ?int $fileSize = null;
 
     /**
      * @inheritDoc

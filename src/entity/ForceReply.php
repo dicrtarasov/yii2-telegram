@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 23:30:56
+ * @license MIT
+ * @version 23.01.22 03:31:46
  */
 
 declare(strict_types = 1);
@@ -23,17 +23,17 @@ use dicr\telegram\TelegramEntity;
 class ForceReply extends TelegramEntity
 {
     /**
-     * @var true Shows reply interface to the user, as if they manually selected the bot's message
+     * Shows reply interface to the user, as if they manually selected the bot's message
      * and tapped 'Reply'
      */
-    public $forceReply;
+    public ?bool $forceReply = null;
 
     /**
-     * @var ?bool Optional. Use this parameter if you want to force reply from specific users only.
+     * Optional. Use this parameter if you want to force reply from specific users only.
      *
      * Targets:
      * 1) users that are @mentioned in the text of the Message object;
      * 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
      */
-    public $selective;
+    public ?bool $selective = null;
 }

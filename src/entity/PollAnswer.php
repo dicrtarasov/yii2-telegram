@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 18:09:09
+ * @license MIT
+ * @version 23.01.22 04:19:03
  */
 
 declare(strict_types = 1);
@@ -19,17 +19,17 @@ use dicr\telegram\TelegramEntity;
  */
 class PollAnswer extends TelegramEntity
 {
-    /** @var string Unique poll identifier */
-    public $pollId;
+    /** Unique poll identifier */
+    public ?string $pollId = null;
 
-    /** @var User The user, who changed the answer to the poll */
-    public $user;
+    /** The user, who changed the answer to the poll */
+    public array|User|null $user = null;
 
     /**
-     * @var int[] 0-based identifiers of answer options, chosen by the user. May be empty if the user retracted their
-     * vote.
+     * @var int[]|null 0-based identifiers of answer options, chosen by the user. May be empty if the user retracted
+     *     their vote.
      */
-    public $optionIds;
+    public ?array $optionIds = null;
 
     /**
      * @inheritDoc

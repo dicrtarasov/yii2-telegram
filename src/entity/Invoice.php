@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 17:34:02
+ * @license MIT
+ * @version 23.01.22 03:37:09
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram\entity;
 
@@ -19,22 +19,22 @@ use dicr\telegram\TelegramEntity;
  */
 class Invoice extends TelegramEntity
 {
-    /** @var string Product name */
-    public $title;
+    /** Product name */
+    public ?string $title = null;
 
-    /** @var string Product description */
-    public $description;
+    /** Product description */
+    public ?string $description = null;
 
-    /** @var string Unique bot deep-linking parameter that can be used to generate this invoice */
-    public $startParameter;
+    /** Unique bot deep-linking parameter that can be used to generate this invoice */
+    public ?string $startParameter = null;
 
-    /** @var string Three-letter ISO 4217 currency code */
-    public $currency;
+    /** Three-letter ISO 4217 currency code */
+    public ?string $currency = null;
 
     /**
-     * @var int Total price in the smallest units of the currency (integer, not float/double).
+     * Total price in the smallest units of the currency (integer, not float/double).
      * For example, for a price of US$ 1.45 pass amount = 145. See the exp parameter in currencies.json,
      * it shows the number of digits past the decimal point for each currency (2 for the majority of currencies).
      */
-    public $totalAmount;
+    public ?int $totalAmount = null;
 }

@@ -1,12 +1,12 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 16:55:02
+ * @license MIT
+ * @version 23.01.22 03:22:49
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram\entity;
 
@@ -19,45 +19,39 @@ use dicr\telegram\TelegramEntity;
  */
 class ChatPermissions extends TelegramEntity
 {
-    /**
-     * @var ?bool Optional. True, if the user is allowed to send text messages, contacts, locations and venues
-     */
-    public $canSendMessages;
+    /** Optional. True, if the user is allowed to send text messages, contacts, locations and venues */
+    public ?bool $canSendMessages = null;
 
     /**
-     * @var ?bool Optional. True, if the user is allowed to send audios, documents, photos, videos, video notes
+     * Optional. True, if the user is allowed to send audios, documents, photos, videos, video notes
      * and voice notes, implies can_send_messages
      */
-    public $canSendMediaMessages;
+    public ?bool $canSendMediaMessages = null;
 
-    /** @var ?bool Optional. True, if the user is allowed to send polls, implies can_send_messages */
-    public $canSendPolls;
+    /** Optional. True, if the user is allowed to send polls, implies can_send_messages */
+    public ?bool $canSendPolls = null;
 
     /**
-     * @var ?bool Optional. True, if the user is allowed to send animations, games, stickers and use inline bots,
+     * Optional. True, if the user is allowed to send animations, games, stickers and use inline bots,
      * implies can_send_media_messages
      */
-    public $canSendOtherMessages;
+    public ?bool $canSendOtherMessages = null;
 
     /**
-     * @var ?bool Optional. True, if the user is allowed to add web page previews to their messages, implies
+     * Optional. True, if the user is allowed to add web page previews to their messages, implies
      * can_send_media_messages
      */
-    public $canAddWebPagePreviews;
+    public ?bool $canAddWebPagePreviews = null;
 
     /**
-     * @var ?bool Optional. True, if the user is allowed to change the chat title, photo and other settings.
+     * Optional. True, if the user is allowed to change the chat title, photo and other settings.
      * Ignored in public supergroups
      */
-    public $canChangeInfo;
+    public ?bool $canChangeInfo = null;
 
-    /**
-     * @var ?bool Optional. True, if the user is allowed to invite new users to the chat
-     */
-    public $canInviteUsers;
+    /** Optional. True, if the user is allowed to invite new users to the chat */
+    public ?bool $canInviteUsers = null;
 
-    /**
-     * @var ?bool Optional. True, if the user is allowed to pin messages. Ignored in public supergroups
-     */
-    public $canPinMessages;
+    /** Optional. True, if the user is allowed to pin messages. Ignored in public supergroups */
+    public ?bool $canPinMessages;
 }

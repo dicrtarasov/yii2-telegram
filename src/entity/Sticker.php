@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 25.08.20 18:30:03
+ * @license MIT
+ * @version 23.01.22 04:06:48
  */
 
 declare(strict_types = 1);
@@ -19,38 +19,38 @@ use dicr\telegram\TelegramEntity;
  */
 class Sticker extends TelegramEntity
 {
-    /** @var string Identifier for this file, which can be used to download or reuse the file */
-    public $fileId;
+    /** Identifier for this file, which can be used to download or reuse the file */
+    public ?string $fileId = null;
 
     /**
-     * @var string Unique identifier for this file, which is supposed to be the same over time and for
+     * Unique identifier for this file, which is supposed to be the same over time and for
      * different bots. Can't be used to download or reuse the file.
      */
-    public $fileUniqueId;
+    public ?string $fileUniqueId = null;
 
-    /** @var int Sticker width */
-    public $width;
+    /** Sticker width */
+    public ?int $width = null;
 
-    /** @var int Sticker height */
-    public $height;
+    /** Sticker height */
+    public ?int $height = null;
 
-    /** @var True, if the sticker is animated */
-    public $isAnimated;
+    /** True, if the sticker is animated */
+    public ?bool $isAnimated = null;
 
-    /** @var ?PhotoSize Optional. Sticker thumbnail in the .WEBP or .JPG format */
-    public $thumb;
+    /** Optional. Sticker thumbnail in the .WEBP or .JPG format */
+    public array|PhotoSize|null $thumb = null;
 
-    /** @var ?string Optional. Emoji associated with the sticker */
-    public $emoji;
+    /** Optional. Emoji associated with the sticker */
+    public ?string $emoji = null;
 
-    /** @var ?string Optional. Name of the sticker set to which the sticker belongs */
-    public $setName;
+    /** Optional. Name of the sticker set to which the sticker belongs */
+    public ?string $setName = null;
 
-    /** @var ?MaskPosition Optional. For mask stickers, the position where the mask should be placed */
-    public $maskPosition;
+    /** Optional. For mask stickers, the position where the mask should be placed */
+    public array|MaskPosition|null $maskPosition = null;
 
-    /** @var ?int Optional. File size */
-    public $fileSize;
+    /** Optional. File size */
+    public ?int $fileSize = null;
 
     /**
      * @inheritDoc

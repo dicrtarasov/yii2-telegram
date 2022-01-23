@@ -1,18 +1,17 @@
 <?php
 /*
- * @copyright 2019-2021 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license MIT
- * @version 05.10.21 00:49:09
+ * @version 23.01.22 03:02:13
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 namespace dicr\telegram;
 
 use dicr\telegram\request\DeleteWebHook;
 use dicr\telegram\request\GetWebhookInfo;
 use yii\base\Exception;
-use yii\base\InvalidConfigException;
 use yii\console\Controller;
 
 use function date;
@@ -30,7 +29,6 @@ class WebhookController extends Controller
      * Получить состояние webhook.
      *
      * @throws Exception
-     * @throws InvalidConfigException
      */
     public function actionInfo(): void
     {

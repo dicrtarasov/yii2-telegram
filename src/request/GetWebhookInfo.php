@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2020 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
- * @license GPL
- * @version 26.08.20 00:23:47
+ * @license MIT
+ * @version 23.01.22 03:05:10
  */
 
 declare(strict_types = 1);
@@ -30,7 +30,6 @@ class GetWebhookInfo extends TelegramRequest
 
     /**
      * @inheritDoc
-     * @return WebhookInfo
      * @throws Exception
      */
     public function send(): WebhookInfo

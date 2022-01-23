@@ -1,9 +1,9 @@
 <?php
 /*
- * @copyright 2019-2021 Dicr http://dicr.org
+ * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license MIT
- * @version 05.10.21 00:46:34
+ * @version 23.01.22 02:58:52
  */
 
 declare(strict_types = 1);
@@ -30,17 +30,17 @@ use function is_callable;
  */
 class TelegramModule extends Module
 {
-    /** @var string URL Telegram API по-умолчанию */
+    /** URL Telegram API по-умолчанию */
     public const API_BASE = 'https://api.telegram.org';
 
-    /** @var string URL Telegram API */
-    public $apiUrl = self::API_BASE;
+    /** URL Telegram API */
+    public string $apiUrl = self::API_BASE;
 
-    /** @var string токен бота, который выдается при создании бота */
-    public $botToken;
+    /** токен бота, который выдается при создании бота */
+    public string $botToken;
 
-    /** @var array конфиг httpClient */
-    public $httpClientConfig = [];
+    /** конфиг httpClient */
+    public array $httpClientConfig = [];
 
     /**
      * @var callable function(Update $update, TelegramModule $module) обработчик обновлений от Telegram
@@ -77,18 +77,17 @@ class TelegramModule extends Module
         }
     }
 
-    /** @var Client */
-    private $_httpClient;
+    private Client $_httpClient;
 
     /**
      * Клиент HTTP.
      *
-     * @return Client
      * @throws InvalidConfigException
      */
     public function httpClient() : Client
     {
-        if ($this->_httpClient === null) {
+        if (!isset($this->_httpClient)) {
+            /** @noinspection PhpFieldAssignmentTypeMismatchInspection */
             $this->_httpClient = Yii::createObject(array_merge([
                 'class' => Client::class,
                 'baseUrl' => $this->apiUrl . '/bot' . $this->botToken,
@@ -102,8 +101,6 @@ class TelegramModule extends Module
     /**
      * Создает запрос.
      *
-     * @param array $config
-     * @return TelegramRequest
      * @throws InvalidConfigException
      */
     public function createRequest(array $config) : TelegramRequest
