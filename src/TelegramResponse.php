@@ -3,10 +3,10 @@
  * @copyright 2019-2022 Dicr http://dicr.org
  * @author Igor A Tarasov <develop@dicr.org>
  * @license MIT
- * @version 23.01.22 03:04:01
+ * @version 23.01.22 13:49:05
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace dicr\telegram;
 
@@ -28,14 +28,10 @@ use dicr\telegram\entity\ResponseParameters;
 class TelegramResponse extends TelegramEntity
 {
     /** результат выполнения запроса */
-    public string|int|bool|null $ok = null;
+    public ?bool $ok = null;
 
-    /**
-     * результат
-     * If 'ok' equals true, the request was successful and the result of the query can be found
-     * in the 'result' field
-     */
-    public ?string $result = null;
+    /** результат запроса */
+    public ?array $result = null;
 
     /**
      * текст ошибки.
@@ -43,10 +39,8 @@ class TelegramResponse extends TelegramEntity
      */
     public ?string $description = null;
 
-    /**
-     * Integer 'error_code' field is also returned, but its contents are subject to change in the future.
-     */
-    public int|null $errorCode = null;
+    /** Integer 'error_code' field is also returned, but its contents are subject to change in the future. */
+    public ?int $errorCode = null;
 
     /**
      * параметры повтора запроса в случае ошибки.
